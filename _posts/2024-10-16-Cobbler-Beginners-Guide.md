@@ -25,11 +25,11 @@ This exact configuration is not a strict requirement for deploying systems throu
 
 #### Physical Network Diagram
 
-![Cobbler-3.3.6-Beginners_Physical.drawio](/images/Cobbler-3.3.6-Beginners_Physical.drawio.svg)
+![Cobbler-3.3.6-Beginners_Physical.drawio](/images/Cobbler-3.3.6-Beginners_Physical.drawio.html)
 
 #### Logical Network Diagram
 
-![Cobbler-3.3.6-Beginners_Logical.drawio](/images/Cobbler-3.3.6-Beginners_Logical.drawio.svg)
+![Cobbler-3.3.6-Beginners_Logical.drawio](/images/Cobbler-3.3.6-Beginners_Logical.drawio.html)
 
 ### **Fedora 34 Server Prep**
 
