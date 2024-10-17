@@ -15,19 +15,19 @@ Starting with a fresh installation of Fedora 34 Server (or Workstation - [Fedora
 
 ### **Environment**
 
-Although Cobbler's [official docs](https://cobbler.readthedocs.io/en/v3.3.6/installation-guide.html#id2) advise that installing and running Cobbler in a virtual environment is not possible, I have done extensive testing with this scenario and have had no issues related to virtualization. It seems that Cobbler can run on several different Linux distributions, installed on either physical or virtual hardware, and you may find success with different environments from what this document details, but for consistency, this document assumes that the **Fedora 34 Server** *(Cobbler server)* is installed as a **VirtualBox VM** under a **Windows 10 host**.
-
 Although Cobbler's [official docs](https://cobbler.readthedocs.io/en/v3.3.6/installation-guide.html#id2) advise that installing and running Cobbler in a virtual environment is not possible, I have done extensive testing with this scenario and have had no issues related to virtualization. It seems that Cobbler can run on several different Linux distributions, installed on either physical or virtual hardware, and you may find success with different environments from what this document details, but for consistency, this document assumes that the **Cobbler Server** *(Fedora 34 Server)* is installed as a **VirtualBox VM** under a **Windows 10 host**.
+
+The Cobbler server VM is configured as a **UEFI system**, with **64 GB HDD**, **4 GB RAM**, **2 vCPUs**, and **2 virtual network adapters.** 1 of the VM's network adapters is configured as a ***Bridged Adapter*** connected to the primary physical NIC on the Windows host so that SSH to the Cobbler server will be more accessible. The other network adapter is configured as a VirtualBox ***Internal Network*** adapter named ***"cobbler"*** which will have no external network connectivity (closed LAN; no internet access).
 
 The **PXE client** *(the target for network installations)* is also running as a **VirtualBox VM** under the **same Windows 10 host**; it has **32 GB HDD**, **4 GB RAM**, **2 vCPUs**, and **1 virtual network adapter** which is connected to the ***same "cobbler" VirtualBox "Internal Network" adapter*** that the Cobbler server is connected to, described above.
 
 This exact configuration is not a strict requirement for deploying systems through Cobbler, but proves that a local network PXE client is able to boot and install an operating system without public internet connectivity, using only the resources immediately available on the VM and the Cobbler server. The Cobbler server will use the internet to install initial updates, patches, prerequisites, the Cobbler application, and download the desired OS installation media (.iso files) for the PXE client, but no systems will require an internet connection at the time of PXE client network installs if configured 1-for-1 with this document.
 
-#### **Physical Network Diagram**
+#### Physical Network Diagram
 
 ![Cobbler-3.3.6-Beginners_Physical.drawio](/images/Cobbler-3.3.6-Beginners_Physical.drawio.svg)
 
-#### **Logical Network Diagram**
+#### Logical Network Diagram
 
 ![Cobbler-3.3.6-Beginners_Logical.drawio](/images/Cobbler-3.3.6-Beginners_Logical.drawio.svg)
 
@@ -35,7 +35,7 @@ This exact configuration is not a strict requirement for deploying systems throu
 
 As stated above, this document outlines the procedures necessary to install and configure Cobbler v3.3.6 on a Fedora 34 host server for local network installations/provisioning through PXE. Additionally, necessary adjustments will be made to allow for compatible operations with **selinux** and **firewalld** on the Cobbler server. As such, being that this is a beginner's guide, it is recommended to keep things simple and **limit the number of additional applications installed** to the Fedora 34 Cobbler server to **minimize unexpected firewall and selinux complications.**
 
-#### **Initial Updates**
+#### Initial Updates
 
 If Cobbler is to be installed on a Fedora 34 Server host, and automatic partitioning was used during initial OS installation, be sure to extend the LVM Logical Volme to a more usable capacity (recommended 95%):
 
@@ -67,11 +67,11 @@ Install your preferred Linux sys admin tools, for example:
 yum install -y neovim fzf tmux htop
 ```
 
-### Security Hardening
+### **Security Hardening**
 
 SELinux and firewall operations can be confusing and intimidating, especially with an application as complex as Cobbler, but rest assured getting started with these security tools is only a matter of a few simple commands.
 
-#### **SELinux**
+#### SELinux
 
 Selinux should come enabled by default on a fresh Fedora 34 Server installation. Verify that the following command returns "enforcing" or "permissive" if you are unsure:
 
@@ -81,7 +81,7 @@ getenforce
 
 If the `getenforce` command returns "enforcing", skip to the "Cobbler SELinux Config" section below. If "permissive" is returned, skip to "Enforcing SELinux" section below.
 
-##### **Enabling SELinux**
+##### Enabling SELinux
 
 If the above command returns "disabled" selinux may be disabled on the kernel command line at boot time. Verify that selinux is not disabled via the kernel boot parameters:
 
@@ -100,7 +100,7 @@ touch /.autorelabel
 
 With selinux enabled at the kernel command line and set to permissive in "/etc/selinux/config" **reboot the Fedora 34 Cobbler server** and observe the filesystem relabel as the system boots.
 
-##### **Enforcing SELinux**
+##### Enforcing SELinux
 
 Change the active runtime state/mode of SELinux to "enforcing":
 
@@ -114,7 +114,7 @@ Configure SELInux to operate in "enforcing" mode at system boot time:
 sed -i 's/SELINUX=permissive/SELINUX=enforcing/' /etc/selinux/config
 ```
 
-##### **Cobbler SELinux Config**
+##### Cobbler SELinux Config
 
 WIth SELinux operating in **Enforcing** mode, enable the necessary SELinux Booleans which will allow for proper operation of Cobbler:
 
@@ -124,7 +124,7 @@ setsebool -P httpd_can_network_connect_cobbler 1
 setsebool -P httpd_serve_cobbler_files 1
 ```
 
-#### ****Firewalld**
+#### Firewalld
 
 There are many options for firewall solutions in Linux, but these procedures will detail how to configure **firewalld** to permit appropriate network traffic for normal Cobbler operations. Firewalld is the default firewall installed on Fedora and most Red Hat distros, verify that it is enabled and running:
 
