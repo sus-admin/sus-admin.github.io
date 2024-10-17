@@ -25,7 +25,7 @@ This exact configuration is not a strict requirement for deploying systems throu
 
 #### **Physical Network Diagram**
 
-![Cobbler-3.3.6-Beginners_Physical.drawio](/images/Cobbler-3.3.6-Beginners_Physical.drawio.png)
+![Cobbler-3.3.6-Beginners_Physical.drawio](/images/Cobbler-3.3.6-Beginners_Physical.drawio.svg)
 
 #### **Logical Network Diagram**
 
