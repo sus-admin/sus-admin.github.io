@@ -292,8 +292,6 @@ With SELinux enabled, some files generated/copied/moved by Cobbler will not reta
 > 
 > Additionally, if there is an error with a `cobbler sync` task (trigger, or otherwise) before reaching this trigger, the sync task will terminate, and the trigger will not run, causing Cobbler files to not be relabeled appropriately... however, there are likely bigger issues at hand if the `cobbler sync` task is erroring out.
 > 
-> 
-> 
 > More info on [Cobbler Triggers](https://cobbler.readthedocs.io/en/v3.3.6/user-guide.html#triggers)
 
 ```shell
@@ -334,7 +332,6 @@ cobbler distro report
 > ```
 > 
 > > cobbler still appropriately sets the "inst.repo" kernel-option in the GRUB or PXE kernel-options in at the `/var/lib/tftpboot/grub/x86_64_menu_items.cfg` & `/var/lib/tftpboot/pxelinux.cfg/default` files. This is likey managed by the Cobbler ***"tree"*** variable in the Cobbler Profile, seen with the `cobbler profile report` command, or the Profile's config file in `/var/www/cobbler/distro_mirror/config` directory
-> 
 
 Create a new generic Fedora 34 kickstart file from the sample included with Cobbler, removing some elements that will cause fatal errors diring install, as well as setting SELinux to permissive mode for deployed systems, and creating a new admin user named "fedora" which will allow for immediate SSH access to the installed system.
 
@@ -354,7 +351,7 @@ Now, create the **PXE Client** VirtualBox VM according to the specs described in
 
 > At this point, you may run the `systemctl restart cobblerd` command, followed by `cobbler sync` on the Cobbler server, then start the **PXE Client** VM and it should boot via PXE, where you should see the option to boot to the Fedora 34 Cobbler Profile (you may need to manually boot from PXE using the UEFI menu if the VM is set to use EFI firmware).
 
-Finally, create a new Cobbler System, replacing the "aa:bb:cc:dd:ee:ff" with the Mac Address of the VM created above, and syncing up Cobbler:
+Finally, create a new Cobbler System, replacing the *"aa:bb:cc:dd:ee:ff"* with the Mac Address of the VM created above, and syncing up Cobbler:
 
 ```shell
 cobbler system add --name Fedora34 --profile Fedora34-x86_64 --filename "grub/grubx64.efi" --netboot-enabled true --hostname fedora34 --interface enp0s3 --static true --mac-address "aa:bb:cc:dd:ee:ff" --ip-address 10.0.0.11 --gateway 10.0.0.1 --netmask 255.255.255.0 --name-servers "10.0.0.1"
