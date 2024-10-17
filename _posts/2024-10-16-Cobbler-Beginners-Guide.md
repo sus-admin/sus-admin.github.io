@@ -79,7 +79,7 @@ Selinux should come enabled by default on a fresh Fedora 34 Server installation.
 getenforce
 ```
 
-If the `getenforce` command returns "enforcing", skip to the "Cobbler SELinux Config" section below. If "permissive" is returned, skip to "Enforcing SELinux" section below.
+If the `getenforce` command returns "enforcing", skip to the **Cobbler SELinux Config** section below. If "permissive" is returned, skip to **Enforcing SELinux** section below.
 
 ##### Enabling SELinux
 
@@ -116,7 +116,7 @@ sed -i 's/SELINUX=permissive/SELINUX=enforcing/' /etc/selinux/config
 
 ##### Cobbler SELinux Config
 
-WIth SELinux operating in **Enforcing** mode, enable the necessary SELinux Booleans which will allow for proper operation of Cobbler:
+WIth SELinux operating in **Enforcing** mode, enable the necessary SELinux Booleans which will allow for basic operation of Cobbler:
 
 ```shell
 setsebool -P cobbler_can_network_connect 1
@@ -134,19 +134,19 @@ systemctl enable --now firewalld
 
 This document will refer to the network interface with internet access as the **Main Fedora Server Interface** and the NIC that will serve the PXE clients will be referred to as the **Main Cobbler Server Interface.**
 
-The **Main Fedora Server Interface** *("enp0s3" in my case, but your interface name may vary)* will be left on to minimize additional configurations, but could be set statically if desired.
+The **Main Fedora Server Interface** *("enp0s3" in my case, but your interface name may vary)* will be left on DHCP to minimize additional configurations, but could be set statically if desired.
 
 The **Main Cobbler Server Interface** *("enp0s8" in my case, but your interface name may vary)* is configured with an IP address of **10.0.0.10/24** with no gateway, since there are not additional networks reachable over that interface.
 
 > Reference the logical network diagram above for more context regarding the interface configurations.
 
-**Create a new firewalld "zone"** which the **Main Cobbler Server Interface** will operate in:
+Create a new **firewalld** ***zone*** which the **Main Cobbler Server Interface** will operate in:
 
-> Linux ISC DHCP server opens a raw UDP socket with the Linux kernel, bypassing the firewalld rules, so it is not necessary to allow the service/port. be sure the resulting "/etc/dhcp/dhcpd.conf" file is only configured for the desired interface for hosting DHCP ***(Main Cobbler Server Interface).***
+> Linux ISC DHCP server opens a raw UDP socket with the Linux kernel, bypassing the firewalld rules, so it is not necessary to allow the service/port. Be sure the resulting "/etc/dhcp/dhcpd.conf" file is only configured for the desired interface for hosting DHCP ***(Main Cobbler Server Interface).***
 > 
-> https://serverfault.com/questions/191390/iptables-and-dhcp-questions/
+> - https://serverfault.com/questions/191390/iptables-and-dhcp-questions/
 > 
-> https://unix.stackexchange.com/questions/447440/ufw-iptables-not-blocking-dhcp-udp-port-67
+> - https://unix.stackexchange.com/questions/447440/ufw-iptables-not-blocking-dhcp-udp-port-67
 
 ```shell
 firewall-cmd --permanent --new-zone=cobbler
@@ -176,9 +176,9 @@ nmcli con mod enp0s8 connection.zone cobbler
 
 ### **Prerequisites**
 
-> Now would be a good time to reboot to load a new kernel that was likely installed with the `yum update` command used above, as well as shutting down the Cobbler server to take a snapshot in VirtualBox in case you make a mistake in the future, or would like to revert the Cobbler server for any reason.
+> Now would be a good time to reboot to load a new kernel that was likely installed with the `yum update` command used above, as well as shutting down the Cobbler server to take a snapshot in VirtualBox.
 
-if the **~/Downloads** directory does not exist on the Cobbler server yet, create it, then download the installation media (.iso files) that will provide the source files to install new Fedora 34 and 37 systems:
+if the **~/Downloads** directory does not exist on the Cobbler server yet, create it, then download the Fedora 34 & 37 installation media (.iso files):
 
 ```shell
 [ -d ~/Downloads ] || mkdir ~/Downloads
@@ -254,7 +254,7 @@ Optionally, toggle some convenient settings:
 
 > The PXE client software that comes with VirtualBox VM firmware (or NIC?) does not support HTTP as a download protocol, so it may be best to leave it disabled
 > 
-> HTTP can always be utilized if you boot the PXE client from CD using the latest **ipxe.iso** file available @ https://boot.ipxe.org/ipxe.iso
+> HTTP can always be utilized if you boot the PXE client from CD using the latest [ipxe.iso](https://boot.ipxe.org/ipxe.iso)
 
 ```shell
 sed -i "s/pxe_just_once: true/pxe_just_once: false/" /etc/cobbler/settings.yaml
@@ -288,9 +288,11 @@ cobbler signature update
 
 With SELinux enabled, some files generated/copied/moved by Cobbler will not retain the correct security context labels necessary for proper operation. create a Cobbler sync-trigger to correct the SELinux labels upon any and all successful completions of a Cobbler ***sync*** tasks
 
-> Cobbler Triggers will run at different times depending on which directory they are placed in, and alphabetical order within that directory. This sync-trigger specifically should typically be run after ALL sync tasks/triggers are completed
+> Cobbler Triggers will run at different times depending on which directory they are placed in, and in alphabetical order within that directory. This sync-trigger specifically should typically be run after ALL sync tasks/triggers are completed
 > 
 > Additionally, if there is an error with a `cobbler sync` task (trigger, or otherwise) before reaching this trigger, the sync task will terminate, and the trigger will not run, causing Cobbler files to not be relabeled appropriately... however, there are likely bigger issues at hand if the `cobbler sync` task is erroring out.
+> 
+> 
 > 
 > More info on [Cobbler Triggers](https://cobbler.readthedocs.io/en/v3.3.6/user-guide.html#triggers)
 
@@ -302,11 +304,12 @@ restorecon -R /var/www/cobbler' | tee /var/lib/cobbler/triggers/sync/post/zzz-se
 chmod u+x /var/lib/cobbler/triggers/sync/post/zzz-selinux-restorecon
 ```
 
-issue another `cobbler sync` to check for errors (should show **\*\*\* TASK COMPLETE \*\*\***) :
+issue another `cobbler sync` to check for errors *(should show* ***\*\*\* TASK COMPLETE \*\*\*****)*:
 
 ```shell
 systemctl restart cobblerd && sleep 10
 cobbler sync
+```
 
 ### **Importing and Deploying Fedora 34 Server**
 
@@ -329,13 +332,14 @@ cobbler distro report
 > ```shell
 > cobbler distro edit --name Fedora34-x86_64 --kernel-options ""
 > ```
->
-> cobbler still appropriately sets the "inst.repo" kernel-option in the GRUB or PXE kernel-options in at the `/var/lib/tftpboot/grub/x86_64_menu_items.cfg` & `/var/lib/tftpboot/pxelinux.cfg/default` files. This is likey managed by the Cobbler ***"tree"*** variable in the Cobbler Profile, seen with the `cobbler profile report` command, or the Profile's config file in `/var/www/cobbler/distro_mirror/config` directory
+> 
+> > cobbler still appropriately sets the "inst.repo" kernel-option in the GRUB or PXE kernel-options in at the `/var/lib/tftpboot/grub/x86_64_menu_items.cfg` & `/var/lib/tftpboot/pxelinux.cfg/default` files. This is likey managed by the Cobbler ***"tree"*** variable in the Cobbler Profile, seen with the `cobbler profile report` command, or the Profile's config file in `/var/www/cobbler/distro_mirror/config` directory
+> 
 
-Create a new generic Fedora 34 kickstart file from the sample included with Cobbler, removing some elements that will cause fatal errors diring install, as well as setting SELinux to permissive mode for deployed systems.
+Create a new generic Fedora 34 kickstart file from the sample included with Cobbler, removing some elements that will cause fatal errors diring install, as well as setting SELinux to permissive mode for deployed systems, and creating a new admin user named "fedora" which will allow for immediate SSH access to the installed system.
 
 ```shell
-cat /var/lib/cobbler/templates/sample.ks | grep -v "\--useshadow" | grep -v ^install | sed 's,selinux --disabled,selinux --permissive,' | tee /var/lib/cobbler/templates/Fedora34.ks
+cat /var/lib/cobbler/templates/sample.ks | grep -v "\--useshadow" | grep -v ^install | sed 's,selinux --disabled,selinux --permissive,' | sed 's,rootpw --iscrypted \$default_password_crypted,rootpw --iscrypted \$default_password_crypted\nuser --groups=wheel --name=fedora --password=\$default_password_crypted --iscrypted --gecos="fedora",' | tee /var/lib/cobbler/templates/Fedora34.ks
 ```
 
 > The kickstart file used to install any Fedora 34 system, whether manually through the GUI installer or automated, can be found at `/root/anaconda-ks.cfg` on the resulting system.
@@ -346,9 +350,9 @@ Set the new kickstart file as the Fedora 34 Cobbler Profile's autoinstall file:
 cobbler profile edit --name Fedora34-x86_64 --autoinstall Fedora34.ks
 ```
 
-Now, create the "PXE Client" VirtualBox VM according to the specs described in the **Environment** section above and set the VM to boot from "Hard Drive" and "Network" only, in that order
+Now, create the **PXE Client** VirtualBox VM according to the specs described in the **Environment** section above and set the VM to boot from "Hard Drive" and "Network" only, in that order
 
-> At this point, you may run the `systemctl restart cobblerd` command, followed by `cobbler sync` on the Cobbler server, then start the "PXE Client" VM and it should boot via PXE, where you should see the option to boot to the Fedora 34 Cobbler Profile (you may need to manually boot from PXE using the UEFI menu if the VM is set to use EFI firmware).
+> At this point, you may run the `systemctl restart cobblerd` command, followed by `cobbler sync` on the Cobbler server, then start the **PXE Client** VM and it should boot via PXE, where you should see the option to boot to the Fedora 34 Cobbler Profile (you may need to manually boot from PXE using the UEFI menu if the VM is set to use EFI firmware).
 
 Finally, create a new Cobbler System, replacing the "aa:bb:cc:dd:ee:ff" with the Mac Address of the VM created above, and syncing up Cobbler:
 
@@ -360,7 +364,7 @@ cobbler sync
 
 The "PXE Client" VM can now be powered on, and should automatically boot to PXE and install Fedora 34 to the VM HDD using the "Fedora34.ks" kickstart file created above.
 
-> The newly installed system will have the root password "cobbler" which is configurable through the `default_password_crypted` setting in `/etc/cobbler/settings.yaml`
+> The newly installed system will have the password "cobbler" for both users "root" and "fedora" which is configurable through the `default_password_crypted` setting in `/etc/cobbler/settings.yaml` as well as the kickstart file created above.
 
 ### **Importing and deploying Fedora 37 Server**
 
@@ -370,7 +374,7 @@ Take similar steps as above to import and autoinstall Fedora 37 Server
 mount -t iso9660 -o loop,ro /home/fedora/Downloads/Fedora-Server-dvd-x86_64-37-1.7.iso /mnt/Fedora
 cobbler import --name=Fedora37 --arch=x86_64 --path=/mnt/Fedora
 cobbler distro edit --name Fedora37-x86_64 --kernel-options ""
-cat /var/lib/cobbler/templates/sample.ks | grep -v "\--useshadow" | grep -v ^install | sed 's,selinux --disabled,selinux --permissive,' | tee /var/lib/cobbler/templates/Fedora37.ks
+cat /var/lib/cobbler/templates/sample.ks | grep -v "\--useshadow" | grep -v ^install | sed 's,selinux --disabled,selinux --permissive,' | sed 's,rootpw --iscrypted \$default_password_crypted,rootpw --iscrypted \$default_password_crypted\nuser --groups=wheel --name=fedora --password=\$default_password_crypted --iscrypted --gecos="fedora",' | tee /var/lib/cobbler/templates/Fedora37.ks
 cobbler profile edit --name Fedora37-x86_64 --autoinstall Fedora37.ks
 cobbler system add --name Fedora37 --profile Fedora37-x86_64 --filename "grub/grubx64.efi" --netboot-enabled true --hostname fedora37 --interface enp0s3 --static true --mac-address "aa:bb:cc:dd:ee:ff" --ip-address 10.0.0.12 --gateway 10.0.0.1 --netmask 255.255.255.0 --name-servers "10.0.0.1"
 systemctl restart cobblerd && sleep 10
@@ -382,6 +386,18 @@ cobbler sync
 here are some helpful troubleshooting commands
 
 ```shell
+man cobbler
+man dhcpd
+man tftp
+man httpd
+man selinux
+man firewalld
+
+cobbler --help
+cobbler distro edit --help
+cobbler profile edit --help
+cobbler system edit --help
+
 systemctl status cobblerd
 systemctl status dhcpd
 systemctl status tftp
