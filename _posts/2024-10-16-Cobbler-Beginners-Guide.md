@@ -49,7 +49,7 @@ Update the Fedora 34 host with the latest YUM repo updates:
 yum update -y
 ```
 
-Install **VirtualBox VM Guest Additions**, either from the YUM repos, or the Guest Adds. CD included with *Oracle VM VirtualBox Manager* Windows application (YUM method is shown below, but VirtualBox usually recommends using the Guest Adds. CD):
+Install **VirtualBox VM Guest Additions**, either from the YUM repos, or the Guest Adds. CD included with "Oracle VM VirtualBox Manager" Windows application *(YUM method is shown below, but VirtualBox usually recommends using the Guest Adds. CD)*:
 
 ```shell
 yum install -y virtualbox-guest-additions
