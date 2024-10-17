@@ -69,7 +69,7 @@ yum install -y neovim fzf tmux htop
 
 ### **Security Hardening**
 
-SELinux and firewall operations can be confusing and intimidating, especially with an application as complex as Cobbler, but rest assured getting started with these security tools is only a matter of a few simple commands.
+SELinux and firewall operations can seem daunting at first, especially with an application as complex as Cobbler, but rest assured getting started with these security tools is only a matter of a few simple commands.
 
 #### SELinux
 
