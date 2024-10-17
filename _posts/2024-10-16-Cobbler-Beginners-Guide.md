@@ -9,11 +9,11 @@ This guide is intended to accompany and extend the official Cobbler [Installatio
 
 It is recommended to review the above official guides before getting started with any Cobbler installation/deployment. This guide will provide some additional context and procedures for getting started with Cobbler v3.3.6 on a Fedora 34 host system.
 
-### Objective
+### **Objective**
 
 Starting with a fresh installation of Fedora 34 Server (or Workstation - [Fedora download archive](https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/34/Server/x86_64/iso/)), this guide will detail preparing the Fedora 34 system for Cobbler 3.3.6 installation from source, including prerequisite installations and network setup, and then provide all necessary steps to install and configure Cobbler to automatically provision another LAN host with Fedora 34 or 37 Server through PXE network boot.
 
-### Environment
+### **Environment**
 
 Although Cobbler's [official docs](https://cobbler.readthedocs.io/en/v3.3.6/installation-guide.html#id2) advise that installing and running Cobbler in a virtual environment is not possible, I have done extensive testing with this scenario and have had no issues related to virtualization. It seems that Cobbler can run on several different Linux distributions, installed on either physical or virtual hardware, and you may find success with different environments from what this document details, but for consistency, this document assumes that the **Fedora 34 Server** *(Cobbler server)* is installed as a **VirtualBox VM** under a **Windows 10 host**.
 
@@ -23,19 +23,19 @@ The **PXE client** *(the target for network installations)* is also running as a
 
 This exact configuration is not a strict requirement for deploying systems through Cobbler, but proves that a local network PXE client is able to boot and install an operating system without public internet connectivity, using only the resources immediately available on the VM and the Cobbler server. The Cobbler server will use the internet to install initial updates, patches, prerequisites, the Cobbler application, and download the desired OS installation media (.iso files) for the PXE client, but no systems will require an internet connection at the time of PXE client network installs if configured 1-for-1 with this document.
 
-#### Physical Network Diagram
+#### **Physical Network Diagram**
 
 ![Cobbler-3.3.6-Beginners_Physical.drawio](https://viewer.diagrams.net/index.html?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Cobbler-3.3.6-Beginners_Physical.drawio#R%3Cmxfile%3E%3Cdiagram%20name%3D%22Page-1%22%20id%3D%22mGYACS-zzXaj1BQpNJr-%22%3E7Vpbb6M6EP41kXYfirgESh6b5tKV2j1V23PafapccIhVwBScS%2FfXnzGYhItJUpWwareRthvG9hjm%2B2bGM6RnnAfraYyi%2BRV1sd%2FTVXfdM0Y9XdfUvg3%2FcclrJjEtMxN4MXHFpK3glvzG%2BUohXRAXJ6WJjFKfkagsdGgYYoeVZCiO6ao8bUb98q4R8nBNcOsgvy69Jy6bZ1LbVLfyC0y8eb6zpoqRAOWThSCZI5euCiJj3DPOY0pZ9i1Yn2OfGy%2B3S7Zu0jC6ubEYh%2ByQBSNzmlgP0xv%2FX3X4sjy5ekGBd6JnWpbIX4gHFjfLXnMLkCA10RAlUWbgGVlj0DmMcEwCzHAMMtgKEMHXW9FwzgIfRjS%2B1CdeCN8duNV0bGMLFS5clMy5wvQiiZBDQu%2BORiAwQCC2H5HAg2fzyRP8RQ4jS%2FzokhjuiMavICJcc4jZo%2BPThaskSw%2FW1k0krLbEMcPrgkiYbIop3D5XqIpRS6An6NsXl6stFzRDyOYFHtiaMhAkFAT0Nqq3GMEXAdMbIDMkkFk%2B7DsE01geS587E8woPHcRTOtlQfOBkyR1tjOYoFnROlsmxnNFP4RVc4Vww5nO8j4gLuxd4Q8Ymu2hA4eDgM%2BdiYGAuC5fPowx3CR6SlVxdkQUcE4Nag575ojrWjCaPUiqOmExfcbn1KeclSENuZYZ8f2KqAVm2GaJGZapDMwaOWwJN3K%2BtM6M%2Fn5njukidFNn49ZazQnDt%2BBxfHQFAbyMUxvuY5T9R2qkTbAvWkkz%2B4pqHslSZoc%2BdIk9HLpfHiQhx6DsQlo9uHbqP9Z%2BVozwkoC36Koi%2FfzdcBp62dclubLfJZ6n%2B%2FG8pjFrRPML1DqotgRUs0tQ7f2gXmGXLAI5rF9gFgOuJOJ266KD%2FWgOfeQ8w5w7DsrfjN6pWU6XkvjaabrMybMLvBs4a3506Ph5LRf1dGMyUeHTEqRWf190Pe0UUm0%2FpNMY4%2FCzgaqqHNaWQO2f7o2yg05RlbUMKiBBiXLG22VbCxXwKleNeE3YA8dDMcXVr8LIaC2gSi9e84sQHuShePEr1XBq5tfbdelVvtBZxMtNc6gRnIQuYgfvMIF4YIZiD7NdphIhFrultmAd6wKWsuNPLouxj3ivqnS3MoDFDtec31sq9dVy%2BbzhTa4ie3Cxqtj8qyjS9HLu2ISVXFFmmZoi4AR6LUwT%2Ftd4w7V9yk1J%2BJJp3JJ5Y9N38FtWzjd0MQuslnUWHZ9Ej4jXBJMQsxWNn0nIR%2B8JIImT5PGGLiBkPWq6vYZ%2FSsRH3x0xNj3i3GoHVsL20SKGrBSuWLRgyTx8X6In7F9DOGaE8jD%2BRBmjgSzg%2B3zmEA52XhpbCpF4ln4kOYHxlrCI73krXq9F%2FDSW2%2Bok7SU3d5nnKOKPEaw9%2FtpCITQ5VYhDw0RZkRnJEw2Ox0uc5RtJu%2F3NMPcHFZjVOszS0%2FeOuPE%2BmGXFVAXm5BkzZy7sVn8HUDPTLrMXKCPN036FP7XzQSPB5GSp0a54EEiZotn2SMKHIHEQVtJVUUwSDKwQ%2Fi%2FeM6XbQ15kSNzJyaCl00M1Fmi2VieJ3pxx2ifJATXaBewFUySvC2r9VJcsq6LNnDzKgqoszu5SBLKSro9w6myDH01HgmINL2uo949FEP2AOvD%2B7OenqRXaLAA1q3Jesupodtpe0w%2BoAMd3F58GzDYLP02rvM8YGH8YTP0AzyQnE3JgwP6mK31QN7343eNOb6EgzbLpX5CYMPD9I4fnY3LDNsrcMOtpXdM7DdsHdAXeXjU5NIh45oYcPrlEEZzDWq6V%2BpX37pvT8Z%2BqlfTml8k7zzqXTSlR5j%2Ffbm9%2FjLIXzRf%2FXI1%2Fju%2B%2Bf0iXajN36malzyY5KUt%2FnHM8lzrg5dQ9CV3%2BqzRd5Yc0NfORQ%2BPvfyRmC%2BQP6Zo%2FEk3Yhw63bUQDs3waNiQltfSN1vE4cEC59JVzO8m5VXJoksN1tznXaC6VvnLFMXOFWTua13%2BG1laugMvtr3qzHvf2t9HG%2BH8%3D%3C%2Fdiagram%3E%3C%2Fmxfile%3E#%7B%22pageId%22%3A%22mGYACS-zzXaj1BQpNJr-%22%7D)
 
-#### Logical Network Diagram
+#### **Logical Network Diagram**
 
 ![Cobbler-3.3.6-Beginners_Logical.drawio](https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Cobbler-3.3.6-Beginners_Logical.drawio#R%3Cmxfile%3E%3Cdiagram%20name%3D%22Page-1%22%20id%3D%22mGYACS-zzXaj1BQpNJr-%22%3E7Vxbc5s6EP41mTnnIQziZvwY27l0Julkmp46ffJgUGxNMKICX9JffySQDAJhkwS7zSWZNtYKCbHft6vdFcmJOVxsLokXz29wAMMTQw82J%2BboxDCAbuv0B5M85RLbsXPBjKCAX1QI7tBvKEZy6RIFMJEuTDEOUxTLQh9HEfRTSeYRgtfyZQ84lO8aezNYE9z5XliXjlGQznOpKx6Lya8gms3FnYHOexaeuJgLkrkX4HVJZJ6fmEOCcZp%2FWmyGMGTKE3rJx1009G4XRmCUthkwsi8T5%2F7yW%2FifPvi1Or355S1mp0Y%2By8oLl%2FyB%2BWLTJ6EBtMhUNPCSOFfwA9pAOucghgQtYAoJldFbUUTgbSEazNNFSHsAGxqiWUQ%2F%2B3SpWd9WFzptBF4yZxNmjST2fBTNvuOYCkwq4LcfocWMPluIpvR%2Fz0%2FRCk4CROiKMHmiIsRmjmA68UO8DLRkNaNj6yriWltBksJNScRVdgkxXT6bUOe9DkeP09fizXXBBWBy2bzEAxdofU5CTsDZduoCI%2FqBw%2FQMyEwFZE5I7zugqnFmafbcueAB0%2Bcug%2Bn8WmLRcZpkxnZGLwBOvMmH8X4x0ReuVTEhXXA%2Bp3wfKi7du8Ifquh0Dx0YHIja3BnvWKAgYMMHBNJFetNsKsaOGFOcM4XagxN7xOZapjh%2FkGzqJCX4EQ5xiBkrIxyxWR5QGFZEHTDDtSVmOLbWt2vkcBXcEHzpnBnWfmMmeBkFmbExba3nKIV31OJY75o6cBmnLszHlO1HqaStsy9rCdiWptsH0pR9RBu6hjMYBZ8WpCBHXzYhUHeuR7UfZz8rRnCFqLUYuqb8%2BthwmoZs64q90jomnr39eF6j6LERzU9Q66C6ClDtY4Lq7gf1bjnNYhYlrB8cTUv2uAqXq4xnDwZnfz%2Bcg9DzmZF%2BZ6B8ZPR6trxfKhzsUfdLQZ5d4H2jweZbh44FbEJ0YpgXFzr96ghSRzZIhXvtHRVSsB%2FSSwJh9N5A1XUGa0egWr29XrZ%2FVFRVNYMKSDRHOWP1skJDJbzktBFuUHrP8NBs3vpZ6hltOFRZ40k0Ivog9%2BXGz2IG1iyGZS1pXKmslAn9JVltK0aNgCV4SXy4Qy1cCalHZpAPvXtwFuPHwfhc%2FxKeE%2F%2F%2B99Pom7gOBlKpsA5%2FCV5VSCRkBIYeq19Ji1Vhzu9wyyhfsMvS5ZR6SyUxRf7cfFS5IFiZCBjydrL1NGKiXDG1iShNvKfSZdwkGxdcu48uFSrph3zGgt9bnb6C8i0Ciyt6F3qJoshVqwIEaFUVFVscXjJqGhcXiMC1x9bWPBGVSXO9BVfZgUsEfZm0oGfUA09VGcjqwCfuMupdLjF5hKk%2FV2pzwDyXMdSzf1S3xpDKAGtxuZDlbSDLlNcBK5OIn6Ue17Z3dGU94hLFfG7Rk5FA8Ofam8LwlvIhRZjxaIrTFC9k8lW5lrKyfP0koMbRTFmQnK9grrOMbXMvZopdbGbsqEjzUeJj0NdINtcgJl%2F8bB0kM6fJGqXzyYOwKJmXLAg7Y981Emc7ua33zG5ouz28Ea4L1Gm7y9V3ztoWG3njeU0JV4VrqELI4iN%2BHEcfuuEc5veSQPZE1HuuMXlEEev7gUi69MLJ%2BOzr5Go57e4shmpfk7cS06njIQ4Yy3iIKLtzPFqU3FsGVnKQVMRF29DquUFSq7hoF8neWFy0zZ0ENyzjZXGR1asYvVGZqCEuekHoolRri8OJ67OvTInL6dvNvzrxB5XDWcOpeYNDZc9K5FocIIwZcm8VswMWQkDV6ETdeY%2FzOBiWbQ4PPrFU26VVwVKxSx8VyxZnBqBvaMBxNaDRRVwY1rsBtsvCVhVYU1dkcfoxkVXWK3elcfW3mNSpSsPrSSWolXiElaSqxoPGrKsh1aqF5XIapOvAdUeK7GqR%2BB7UslExQQnU1iiiz5RMEkhWrFrxajLYlVc7TKdfI4PZbw73uudCi5T%2BOcG4qHKWapxFxbOhykkb3cXhgtx7A3EesP8lgbhVSZpt4f5fG4jboDLRgQNxoMruPveN57sK09qfth9532ibZL0TNLsM76xqot0Hfza8A6q862WOn7Wef7qkXlXvbXrvSqXeFonYc7234brSRJZeKcJ1dLxkuuoFd3W8tBPcNoXYEtFURVQ%2FRPHEIyn7iBcxK34npSrqjefPUQQnwHA39J8Wsxrr64O3yiGi1a97ZNW7JO7BbPgzR%2Btor%2B1VXxL643tti6NYuteegneDZ6e7bSV2shWFMeeYcIrofhec3HkN8IZeeIWTtmfr%2F4zzLJWOYrVdfYzJY5J6LFf%2B94OfoFuOzAPLqEddQEWEw52gt3hXTCLCj5u2NLiAASYeHcLeV9XvspLFKf00xFOKDvnwXKi%2BCCrON8tcUJ18HI4LzziY%2Fhvjoeore388HjJa1B5eaFy39%2BfMlEJE1fXRLalX3V1VlqSKlg5nSarKxMuS2dflr0bb1wBELvSXJLB25ZCilnceOoHtKsc0Whwnf9aomn61UPbnqqj5qDUqo8V5MtC17PszuW2EtfrrxIrk9lC%2FAqOGtUXZguW2xruBs0srtXvyb78cMLelzeJPbeQeuviDJeb5%2Fw%3D%3D%3C%2Fdiagram%3E%3C%2Fmxfile%3E)
 
-### Fedora 34 Server Prep
+### **Fedora 34 Server Prep**
 
 As stated above, this document outlines the procedures necessary to install and configure Cobbler v3.3.6 on a Fedora 34 host server for local network installations/provisioning through PXE. Additionally, necessary adjustments will be made to allow for compatible operations with **selinux** and **firewalld** on the Cobbler server. As such, being that this is a beginner's guide, it is recommended to keep things simple and **limit the number of additional applications installed** to the Fedora 34 Cobbler server to **minimize unexpected firewall and selinux complications.**
 
-#### Initial Updates
+#### **Initial Updates**
 
 If Cobbler is to be installed on a Fedora 34 Server host, and automatic partitioning was used during initial OS installation, be sure to extend the LVM Logical Volme to a more usable capacity (recommended 95%):
 
@@ -71,7 +71,7 @@ yum install -y neovim fzf tmux htop
 
 SELinux and firewall operations can be confusing and intimidating, especially with an application as complex as Cobbler, but rest assured getting started with these security tools is only a matter of a few simple commands.
 
-#### SELinux
+#### **SELinux**
 
 Selinux should come enabled by default on a fresh Fedora 34 Server installation. Verify that the following command returns "enforcing" or "permissive" if you are unsure:
 
@@ -81,7 +81,7 @@ getenforce
 
 If the `getenforce` command returns "enforcing", skip to the "Cobbler SELinux Config" section below. If "permissive" is returned, skip to "Enforcing SELinux" section below.
 
-##### Enabling SELinux
+##### **Enabling SELinux**
 
 If the above command returns "disabled" selinux may be disabled on the kernel command line at boot time. Verify that selinux is not disabled via the kernel boot parameters:
 
@@ -100,7 +100,7 @@ touch /.autorelabel
 
 With selinux enabled at the kernel command line and set to permissive in "/etc/selinux/config" **reboot the Fedora 34 Cobbler server** and observe the filesystem relabel as the system boots.
 
-##### Enforcing SELinux
+##### **Enforcing SELinux**
 
 Change the active runtime state/mode of SELinux to "enforcing":
 
@@ -114,7 +114,7 @@ Configure SELInux to operate in "enforcing" mode at system boot time:
 sed -i 's/SELINUX=permissive/SELINUX=enforcing/' /etc/selinux/config
 ```
 
-##### Cobbler SELinux Config
+##### **Cobbler SELinux Config**
 
 WIth SELinux operating in **Enforcing** mode, enable the necessary SELinux Booleans which will allow for proper operation of Cobbler:
 
@@ -124,7 +124,7 @@ setsebool -P httpd_can_network_connect_cobbler 1
 setsebool -P httpd_serve_cobbler_files 1
 ```
 
-#### Firewalld
+#### ****Firewalld**
 
 There are many options for firewall solutions in Linux, but these procedures will detail how to configure **firewalld** to permit appropriate network traffic for normal Cobbler operations. Firewalld is the default firewall installed on Fedora and most Red Hat distros, verify that it is enabled and running:
 
@@ -174,7 +174,7 @@ nmcli con mod enp0s8 connection.zone cobbler
 
 > Feel free to comment with additional security hardening measures you would employ in this environment.
 
-### Prerequisites
+### **Prerequisites**
 
 > Now would be a good time to reboot to load a new kernel that was likely installed with the `yum update` command used above, as well as shutting down the Cobbler server to take a snapshot in VirtualBox in case you make a mistake in the future, or would like to revert the Cobbler server for any reason.
 
@@ -222,7 +222,7 @@ Install the GRUB bootloader and module packages so GRUB can be used as the netwo
 yum install -y grub2-pc grub2-pc-modules grub2-efi-x64-modules grub2-efi-aa64-modules grub2-efi-arm-modules grub2-efi-ia32-modules grub2-emu-modules grub2-emu-modules grub2-ppc64le-modules grub2-emu
 ```
 
-### Cobbler Installation and Basic Configuration
+### **Cobbler Installation and Basic Configuration**
 
 Install Cobbler
 
@@ -308,7 +308,7 @@ issue another `cobbler sync` to check for errors (should show **\*\*\* TASK COMP
 systemctl restart cobblerd && sleep 10
 cobbler sync
 
-### Importing and Deploying Fedora 34 Server
+### **Importing and Deploying Fedora 34 Server**
 
 Mount the Fedora 34 Server installation media
 
@@ -362,7 +362,7 @@ The "PXE Client" VM can now be powered on, and should automatically boot to PXE 
 
 > The newly installed system will have the root password "cobbler" which is configurable through the `default_password_crypted` setting in `/etc/cobbler/settings.yaml`
 
-### Importing and deploying Fedora 37 Server
+### **Importing and deploying Fedora 37 Server**
 
 Take similar steps as above to import and autoinstall Fedora 37 Server
 
@@ -377,7 +377,7 @@ systemctl restart cobblerd && sleep 10
 cobbler sync
 ```
 
-### Troubleshooting
+### **Troubleshooting**
 
 here are some helpful troubleshooting commands
 
@@ -410,3 +410,4 @@ cat /var/lib/tftpboot/pxelinux.cfg/default
 cat /etc/httpd/conf/httpd.conf
 cat /etc/httpd/conf.d/cobbler.conf
 ```
+
