@@ -2,24 +2,22 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: <a href='#'>susadmin.xyz</a>. Tampa, FL. susadm1n.xyz@gmail.com - Avid gamer and tech enthusiast
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: kaleidoscope_goggles.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>Tampa, FL</p>
 
 news: true # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+A tech nerd out of Tampa Bay, I'm interested in engineering sophisticated IT networks and systems to provide effective solutions in a dynamic and fast-paced environment; with a B.S. in Network Engineering from Purdue University, previously Cisco Networks certified, and earnest working experience both as a member of a specialized team with rigid policies, as well as a less structured team where I had more opportunities to design solutions myself and make meaningful contributions outside of my immediate team.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+I like to spend my free time researching new innovations in tech and woring on personal projects to keep my skills sharp, as well as spending time with friends and family, exercising, being outdoors, and playing sports and video games.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+Check out the Blog and Projects tab above for some interesting and informative write-ups on various technical designs and procedures.
