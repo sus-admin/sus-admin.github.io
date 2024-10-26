@@ -42,7 +42,7 @@ systemctl <span class="nb">enable </span>cobblerd
 cobbler <span class="nb">sync</span> <span class="o">&amp;&amp;</span> <span class="nb">sleep </span>5
 cobbler check
 cobbler mkloaders
-</code></pre></div></div> <p>Pull the latest signatures from Cobbler GitHub and sync up cobbler</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler signature update
+</code></pre></div></div> <p>Pull the latest official Cobbler signatures</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler signature update
 systemctl restart cobblerd <span class="o">&amp;&amp;</span> <span class="nb">sleep </span>5
 cobbler <span class="nb">sync</span>
 </code></pre></div></div> <p><strong>The Cobbler server is now ready to begin importing distros and deploying systems</strong></p> <h2 id="importing-and-deploying-fedora-34-server"><strong>Importing and Deploying Fedora 34 Server</strong></h2> <p>Mount the Fedora 34 Server installation media</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> /mnt/Fedora
