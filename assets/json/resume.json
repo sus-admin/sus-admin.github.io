@@ -6,7 +6,7 @@
     "email": "susadm1n.xyz@gmail.com",
     "phone": "",
     "url": "https://sus-admin.github.io",
-    "summary": "IT professional specializing in networking and server administration and user support",
+    "summary": "IT professional specializing in network and server administration",
     "location": {
       "address": "",
       "postalCode": "FL 33611",
@@ -29,10 +29,11 @@
       "url": "https://madmobile.com",
       "startDate": "2021-05-01",
       "endDate": "2024-02-01",
-      "summary": "Managing systems and servers in the software development lab to enable and improve developer and tester productivity, as well as providing IT support for the local HQ office and remote corporate and contract users.",
+      "summary": "Managing systems and servers in the software development lab to enable and support developer and tester workflows, as well as providing IT support for the local HQ office and remote corporate and contract users.",
       "highlights": [
-		"Operating systems, virtualization, data storage and management, and security",
-		"Network devices and services",
+		"Operating systems, virtualization, data management, and security",
+		"Java desktop application and Java web server maintenance and troubleshooting",
+		"LAN & WAN network devices and services",
 		"Tier 1 - tier 3 user support",
 		"Customer training/onboarding and support"
 	  ]
@@ -43,10 +44,10 @@
       "url": "https://l3harris.com",
       "startDate": "2019-05-01",
       "endDate": "2020-11-01",
-      "summary": "Tier 1 network operations support in a 24x7 operations center, working with customers, service providers, and field techs to perform routine proavtive and reactive maintenance.",
+      "summary": "Tier 1 network support in a 24x7 operations center providing managed network service to the FAA; working with customers, service providers, and field techs to perform proavtive and reactive maintenance.",
       "highlights": [
-		"First line of defense maintaining an international, mission critical network",
-		"Cisco network devices and services",
+		"First line of defense maintaining international, mission critical-networks",
+		"Cisco Networks devices and services",
 		"Tier 1 customer support"
 	  ]
     }
