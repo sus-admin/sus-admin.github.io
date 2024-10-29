@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>susadmin.xyz</a>. Tampa, FL. susadm1n.xyz@gmail.com - Avid gamer and tech enthusiast
+subtitle: <a href='#'>sus-admin.github.io</a>. Tampa, FL. shanelogan468@gmail.com - Avid gamer and tech enthusiast
 
 profile:
   align: right
