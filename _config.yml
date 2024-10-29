@@ -2,11 +2,11 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: sus-admin # the website title (if blank, full name will be used instead)
+title: Shane Logan # the website title (if blank, full name will be used instead)
 first_name: Shane
 middle_name: 
 last_name: Logan
-email: susadm1n.xyz@gmail.com
+email: shanelogan468@gmail.com
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   various detailed technical procedures. Based on [*folio](https://github.com/bogoli/-folio) design.
 footer_text: >
@@ -133,7 +133,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: sus-admin # blog_name will be displayed in your blog page
+blog_name: Tech Tips # blog_name will be displayed in your blog page
 blog_description: various detailed technical procedures
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
