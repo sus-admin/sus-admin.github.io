@@ -84,9 +84,9 @@ cobbler reposync
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s,d-i apt-setup/local0/repository,#d-i apt-setup/local0/repository,'</span> /var/lib/cobbler/templates/bookworm-latest.seed
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s,d-i apt-setup/local0/key,#d-i apt-setup/local0/key,'</span> /var/lib/cobbler/templates/bookworm-latest.seed
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s,d-i debian-installer/allow_unauthenticated,#d-i debian-installer/allow_unauthenticated,'</span> /var/lib/cobbler/templates/bookworm-latest.seed
-<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s,script=preseed_early_default,script=preseed_early_debmirror,'</span> /var/lib/cobbler/templates/bookworm-latest.seed
-<span class="nb">cp</span> /var/lib/cobbler/scripts/preseed_early_default /var/lib/cobbler/scripts/preseed_early_bookworm
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s1">'#!/bin/sh\nexit'</span> | <span class="nb">tee</span> /var/lib/cobbler/scripts/preseed_early_bookworm
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s,script=preseed_early_workaround,script=preseed_early_skip,'</span> /var/lib/cobbler/templates/bookworm-latest.seed
+<span class="nb">cp</span> /var/lib/cobbler/scripts/preseed_early_workaround /var/lib/cobbler/scripts/preseed_early_skip
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s1">'#!/bin/sh\nexit'</span> | <span class="nb">tee</span> /var/lib/cobbler/scripts/preseed_early_skip
 </code></pre></div></div> <p>Download the kernel and 2 initrd files for Debiain latest/current (12.8)</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget <span class="nt">-O</span> ~/Downloads/debian-stable-initrd.gz http://ftp.us.debian.org/debian/dists/stable/main/installer-amd64/current/images/cdrom/initrd.gz
 wget <span class="nt">-O</span> ~/Downloads/debian-stable-netboot-initrd.gz http://ftp.us.debian.org/debian/dists/stable/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz
 wget <span class="nt">-O</span> ~/Downloads/debian-stable-vmlinuz http://ftp.us.debian.org/debian/dists/stable/main/installer-amd64/current/images/cdrom/vmlinuz
