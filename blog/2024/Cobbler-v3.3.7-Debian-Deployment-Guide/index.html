@@ -50,8 +50,7 @@ usermod <span class="nt">-aG</span> <span class="nb">sudo </span>debian
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s,script=preseed_early_default,script=preseed_early_workaround,'</span> /var/lib/cobbler/templates/bookworm-sample.seed
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s,script=preseed_late_default,script=preseed_late_sudo_sources,'</span> /var/lib/cobbler/templates/bookworm-sample.seed
 </code></pre></div></div> <p>Configure the Cobbler Profile to use the new autoinstall (preseed) template:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler profile edit <span class="nt">--name</span> Debian12.8-x86_64 <span class="nt">--autoinstall</span> <span class="s1">'bookworm-sample.seed'</span>
-</code></pre></div></div> <p>Create a new Cobbler System to PXE boot and automatically install Debian 12 Bookworm, replacing the <em>“aa:bb:cc:dd:ee:ff”</em> with the MAC address of your PXE client, being sure not to use a duplicate MAC or IP addresse of any other Cobbler System.</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler system add <span class="nt">--name</span> <span class="s2">"Debian12.8"</span> <span class="nt">--profile</span> Debian12.8-x86_64 <span class="nt">--hostname</span> <span class="s2">"debian12-8"</span> <span class="nt">--mac-address</span> <span class="s2">"aa:bb:cc:dd:ee:ff"</span> <span class="nt">--netboot-enabled</span> <span class="nb">true</span> <span class="nt">--ip-address</span> <span class="s2">"10.0.0.12"</span> <span class="nt">--netmask</span> <span class="s2">"255.255.255.0"</span> <span class="nt">--gateway</span> <span class="s2">"10.0.0.1"</span> <span class="nt">--name-servers</span> <span class="s2">"10.0.0.1 1.1.1.1 8.8.8.8"</span>
-</code></pre></div></div> <p>Finally, restart and sync up Cobbler:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart cobblerd <span class="o">&amp;&amp;</span> <span class="nb">sleep </span>10
+</code></pre></div></div> <p>Finally, create a new Cobbler System to PXE boot and automatically install Debian 12 Bookworm, replacing the <em>“aa:bb:cc:dd:ee:ff”</em> with the MAC address of your PXE client, being sure not to use a duplicate MAC or IP addresse of any other Cobbler System, then sync up Cobbler.</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler system add <span class="nt">--name</span> <span class="s2">"Debian12.8"</span> <span class="nt">--profile</span> Debian12.8-x86_64 <span class="nt">--hostname</span> <span class="s2">"debian12-8"</span> <span class="nt">--mac-address</span> <span class="s2">"aa:bb:cc:dd:ee:ff"</span> <span class="nt">--netboot-enabled</span> <span class="nb">true</span> <span class="nt">--ip-address</span> <span class="s2">"10.0.0.12"</span> <span class="nt">--netmask</span> <span class="s2">"255.255.255.0"</span> <span class="nt">--gateway</span> <span class="s2">"10.0.0.1"</span> <span class="nt">--name-servers</span> <span class="s2">"10.0.0.1 1.1.1.1 8.8.8.8"</span>
 cobbler <span class="nb">sync</span>
 </code></pre></div></div> <p>The <strong>PXE Client</strong> VM can now be powered on, and should automatically boot to PXE and install Debian 12.8 to the VM HDD using the “bookworm-sample.seed” preseed template created above.</p> <h2 id="debian-11-bullseye-pxe-deployment">Debian 11 Bullseye PXE Deployment</h2> <p>Take similar steps as above, with the inclusion of the netboot “firmware” image file in the combined <code class="language-plaintext highlighter-rouge">initrd.gz</code> image file, and using the “bookworm-sample.seed” template created above as a starting point and trimming off a few unsupported preseed settings to import and automatically deploy Debian 11 Bullseye over PXE.</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span> <span class="nt">-e</span> /mnt/Debian <span class="o">]</span> <span class="o">||</span> <span class="nb">mkdir</span> /mnt/Debian
 mount <span class="nt">-t</span> iso9660 <span class="nt">-o</span> loop,ro /home/fedora/Downloads/debian-11.11.0-amd64-DVD-1.iso /mnt/Debian
@@ -69,12 +68,10 @@ cobbler profile edit <span class="nt">--name</span> Debian11.11-x86_64 <span cla
 
 cobbler system add <span class="nt">--name</span> Debian11.11 <span class="nt">--profile</span> Debian11.11-x86_64 <span class="nt">--mac-address</span> <span class="s2">"aa:bb:cc:dd:ee:ff"</span> <span class="nt">--netboot-enabled</span> <span class="nb">true
 
-</span>systemctl restart cobblerd <span class="o">&amp;&amp;</span> <span class="nb">sleep </span>10
-cobbler <span class="nb">sync</span>
+</span>cobbler <span class="nb">sync</span>
 </code></pre></div></div> <h2 id="mirroring-with-debmirror">Mirroring with debmirror</h2> <p>Mirroring the official Debian repos with the <strong>debmirror</strong> tool is fairly simple, but will require about 100GB of extra disk space on the Cobbler server.</p> <p>This guide will only provide the steps to mirror the LATEST release of Debian <em>(Bookworm 12.8 at the time of writing)</em> with <code class="language-plaintext highlighter-rouge">debmirror</code>.</p> <p>similarly to the DVD/ISO method above, both the <strong>netboot</strong> and <strong>DVD/ISO</strong> <code class="language-plaintext highlighter-rouge">initrd.gz</code> images are still required in the same concatenated manner to properly install over the network, but they must both be downloaded separately of the <code class="language-plaintext highlighter-rouge">debmirror</code> process.</p> <p>Since the official Debian repo will be mirrored, the source will be fully valid with trusted signatures, meaning the autoinstall (preseed) file for the PXE client will not need the APT security settings required in the DVD/ISO source method.</p> <p>Cobbler supports managing repos/sources via the debmirror command natively, which means the <code class="language-plaintext highlighter-rouge">debmirror</code> package only needs to be installed and configured, then mirroring can be accomplished/managed through Cobbler CLI commands.</p> <ul> <li>The syntax for mirroring a Debian repo through the <code class="language-plaintext highlighter-rouge">debmirror</code> command will still be provided below for context in the <strong>Manual debmirror</strong> section, but is not necessary in most cases to mirror Debian locally.</li> </ul> <h3 id="setup-debmirror">Setup debmirror</h3> <p>Follow the instructions for supporting Debian deployments/repos given from the <code class="language-plaintext highlighter-rouge">cobbler check</code> command output (as well as installign Debian keyrings):</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> debmirror debian-keyring
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="s2">"s/@arches/#@arches/g"</span> /etc/debmirror.conf
 <span class="nb">sed</span> <span class="nt">-i</span> <span class="s2">"s/@dists/#@dists/g"</span> /etc/debmirror.conf
-systemctl restart cobblerd <span class="o">&amp;&amp;</span> <span class="nb">sleep </span>5
 cobbler <span class="nb">sync
 </span>cobbler check
 </code></pre></div></div> <h3 id="manual-debmirror">Manual debmirror</h3> <p>Sometimes debmirror may fail to download a few files from the configured source, which can cause Cobbler to error out on the <code class="language-plaintext highlighter-rouge">reposync</code> task/command.</p> <ul> <li>Usually re-issueing the <code class="language-plaintext highlighter-rouge">reposync</code> command (and in-turn, the <code class="language-plaintext highlighter-rouge">debmirror</code> command) after such a failure will complete the download of the missing files.</li> </ul> <p>This manual <code class="language-plaintext highlighter-rouge">debmirror</code> method may be useful for troubleshooting</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>debmirror <span class="nt">-p</span> <span class="nt">-v</span> <span class="nt">--method</span> http <span class="nt">-a</span> amd64 <span class="nt">-h</span> ftp.us.debian.org <span class="nt">-d</span> stable <span class="nt">-s</span> main,main/debian-installer,contrib,non-free,non-free-firmware <span class="nt">--nosource</span> <span class="nt">--keyring</span><span class="o">=</span><span class="s2">"/usr/share/keyrings/debian-archive-keyring.gpg"</span>  ~/Debian12.8
@@ -96,52 +93,51 @@ wget <span class="nt">-O</span> ~/Downloads/debian-stable-vmlinuz http://ftp.us.
 </code></pre></div></div> <p>Add a Cobbler Distro and Profile for the new Debian repo, and the usual HTTP link:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler distro add <span class="nt">--name</span> Debian-latest <span class="nt">--arch</span> x86_64 <span class="nt">--autoinstall-meta</span> <span class="s1">'tree'</span><span class="o">=</span><span class="s1">'http://@@http_server@@/cblr/links/Debian-latest'</span> <span class="nt">--breed</span> debian <span class="nt">--os-version</span> bookworm <span class="nt">--initrd</span> <span class="s2">"/var/www/cobbler/pub/Debian12.8-netboot/initrd.gz"</span> <span class="nt">--kernel</span> <span class="s2">"/var/www/cobbler/pub/Debian12.8-netboot/vmlinuz"</span>
 cobbler profile add <span class="nt">--name</span> Debian-latest <span class="nt">--distro</span> Debian-latest <span class="nt">--autoinstall</span> bookworm-latest.seed
 <span class="nb">ln</span> <span class="nt">-s</span> /var/www/cobbler/repo_mirror/Debian-latest /var/www/cobbler/links/Debian-latest
-systemctl restart cobblerd <span class="o">&amp;&amp;</span> <span class="nb">sleep </span>5
 cobbler <span class="nb">sync</span>
 </code></pre></div></div> <p>Now the <strong>PXE Client</strong> should be able to boot from a generic/random MAC address and load the new “Debian-latest” Cobbler Profile over GRUB</p> <blockquote> <p>Cobbler Systems can now also be added similarly to above in the <strong>Debian 12 Bookworm PXE Deployment</strong> and <strong>Debian 11 Bullseye PXE Deployment</strong> sections above.</p> <div class="language-shell highlighter-rouge"> <div class="highlight"><pre class="highlight"><code>cobbler system add <span class="nt">--name</span> Debian-Latest <span class="nt">--profile</span> Debian-latest <span class="nt">--mac-address</span> <span class="s2">"aa:bb:cc:dd:ee:ff"</span> <span class="nt">--netboot-enabled</span> <span class="nb">true</span>
-</code></pre></div> </div> </blockquote> <h2 id="tips--troubleshooting">Tips &amp; Troubleshooting</h2> <ol> <li> <p>The <a href="/_posts/2024-10-16-Cobbler-v3.3.7-Beginners-Guide.md">Cobbler 3.3.7 Beginner’s Guide</a> <strong>Tips &amp; Troubleshooting</strong> section contains some basic recommendations and limitations of Cobbler which will not be repeated here.</p> </li> <li> <p>The <code class="language-plaintext highlighter-rouge">debian-installer</code> issue mentioned in the <strong>Caveats</strong> section above is primarily marked by a fatal error during the installation process and the log entry <code class="language-plaintext highlighter-rouge">GPG error</code> in <code class="language-plaintext highlighter-rouge">/var/log/syslog</code> on the installer system, or, if the workaround script was used, you can install the <code class="language-plaintext highlighter-rouge">debconf-utils</code> package on the resulting system and use the command <code class="language-plaintext highlighter-rouge">debconf-get-selections --installer | grep "Downloading"</code> for more info on the error.</p> <ul> <li> <p>The error prevents the installation from proceeding using the configured repo mirror, but the <code class="language-plaintext highlighter-rouge">debian-installer</code> remains running; press <strong>ALT+F2</strong> or <strong>ALT+F3</strong> on the PXE client keyboard to access a privileged shell to conduct some troubleshooting.</p> </li> <li> <p>The issue stems from the below section of the preseed file, retrieved drectly from Debian’s official <a href="https://www.debian.org/releases/stable/example-preseed.txt" rel="external nofollow noopener" target="_blank">stable</a> and <a href="https://www.debian.org/releases/bookworm/example-preseed.txt" rel="external nofollow noopener" target="_blank">bookworm</a> example preseed files.</p> <div class="language-shell highlighter-rouge"> <div class="highlight"><pre class="highlight"><code>  <span class="c">### Apt setup</span>
-  <span class="c"># Choose, if you want to scan additional installation media</span>
-  <span class="c"># (default: false).</span>
-  d-i apt-setup/cdrom/set-first boolean <span class="nb">false</span>
-  <span class="c"># You can choose to install non-free firmware.</span>
-  <span class="c">#d-i apt-setup/non-free-firmware boolean true</span>
-  <span class="c"># You can choose to install non-free and contrib software.</span>
-  <span class="c">#d-i apt-setup/non-free boolean true</span>
-  <span class="c">#d-i apt-setup/contrib boolean true</span>
-  <span class="c"># Uncomment the following line, if you don't want to have the sources.list</span>
-  <span class="c"># entry for a DVD/BD installation image active in the installed system</span>
-  <span class="c"># (entries for netinst or CD images will be disabled anyway, regardless of</span>
-  <span class="c"># this setting).</span>
-  <span class="c">#d-i apt-setup/disable-cdrom-entries boolean true</span>
-  <span class="c"># Uncomment this if you don't want to use a network mirror.</span>
-  <span class="c">#d-i apt-setup/use_mirror boolean false</span>
-  <span class="c"># Select which update services to use; define the mirrors to be used.</span>
-  <span class="c"># Values shown below are the normal defaults.</span>
-  <span class="c">#d-i apt-setup/services-select multiselect security, updates</span>
-  <span class="c">#d-i apt-setup/security_host string security.debian.org</span>
-        
-  <span class="c"># Additional repositories, local[0-9] available</span>
-  <span class="c">#d-i apt-setup/local0/repository string \</span>
-  <span class="c">#       http://local.server/debian stable main</span>
-  <span class="c">#d-i apt-setup/local0/comment string local server</span>
-  <span class="c"># Enable deb-src lines</span>
-  <span class="c">#d-i apt-setup/local0/source boolean true</span>
-  <span class="c"># URL to the public key of the local repository; you must provide a key or</span>
-  <span class="c"># apt will complain about the unauthenticated repository and so the</span>
-  <span class="c"># sources.list line will be left commented out.</span>
-  <span class="c">#d-i apt-setup/local0/key string http://local.server/key</span>
-  <span class="c"># or one can provide it in-line by base64 encoding the contents of the</span>
-  <span class="c"># key file (with `base64 -w0`) and specifying it thus:</span>
-  <span class="c">#d-i apt-setup/local0/key string base64://LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCi4uLgo=</span>
-  <span class="c"># The content of the key file is checked to see if it appears to be ASCII-armoured.</span>
-  <span class="c"># If so it will be saved with an ".asc" extension, otherwise it gets a '.gpg' extension.</span>
-  <span class="c"># "keybox database" format is currently not supported. (see generators/60local in apt-setup's source)</span>
-        
-  <span class="c"># By default the installer requires that repositories be authenticated</span>
-  <span class="c"># using a known gpg key. This setting can be used to disable that</span>
-  <span class="c"># authentication. Warning: Insecure, not recommended.</span>
-  <span class="c">#d-i debian-installer/allow_unauthenticated boolean true</span>
-</code></pre></div> </div> </li> <li> <p>As seen in the procdures above, <code class="language-plaintext highlighter-rouge">allow_unauthenticated</code> is set to true, which appears to only permit the installation to START when an untrusted repo mirror is found, but the mirror will be checked again before beginning the <code class="language-plaintext highlighter-rouge">apt-setup</code> phase, which <code class="language-plaintext highlighter-rouge">allow_unauthenticated</code> will not override.</p> <ul> <li> <p>This means that the <code class="language-plaintext highlighter-rouge">debian-installer</code> also requires the local APT mirror to be defined using the <code class="language-plaintext highlighter-rouge">d-i apt-setup/local0/repository</code> &amp; <code class="language-plaintext highlighter-rouge">d-i apt-setup/local0/key</code> preseed options in order for the PXE client to retrieve the public GPG key for the repo mirror and use it to validate the mirror, which seems to be configured properly through the preseed from Cobbler, verified with the following commands on the <code class="language-plaintext highlighter-rouge">debian-installer</code> system (and obviously can be done, since the workaround provided in this guide does essentially the same thing):</p> <div class="language-shell highlighter-rouge"> <div class="highlight"><pre class="highlight"><code>  debconf-get apt-setup/local0/repository
+</code></pre></div> </div> </blockquote> <h2 id="tips--troubleshooting">Tips &amp; Troubleshooting</h2> <ol> <li> <p>The <a href="/_posts/2024-10-16-Cobbler-v3.3.7-Beginners-Guide.md">Cobbler 3.3.7 Beginner’s Guide</a> <strong>Tips &amp; Troubleshooting</strong> section contains some basic recommendations and limitations of Cobbler which will not be repeated here.</p> </li> <li> <p>The <code class="language-plaintext highlighter-rouge">debian-installer</code> issue mentioned in the <strong>Caveats</strong> section above is primarily marked by a fatal error during the installation process and the log entry <code class="language-plaintext highlighter-rouge">GPG error</code> in <code class="language-plaintext highlighter-rouge">/var/log/syslog</code> on the installer system, or, if the workaround script was used, you can install the <code class="language-plaintext highlighter-rouge">debconf-utils</code> package on the resulting system and use the command <code class="language-plaintext highlighter-rouge">debconf-get-selections --installer | grep "Downloading"</code> for more info on the error.</p> <ul> <li> <p>The error prevents the installation from proceeding using the configured repo mirror, but the <code class="language-plaintext highlighter-rouge">debian-installer</code> remains running; press <strong>ALT+F2</strong> or <strong>ALT+F3</strong> on the PXE client keyboard to access a privileged shell to conduct some troubleshooting.</p> </li> <li> <p>The issue stems from the below section of the preseed file, retrieved drectly from Debian’s official <a href="https://www.debian.org/releases/stable/example-preseed.txt" rel="external nofollow noopener" target="_blank">stable</a> and <a href="https://www.debian.org/releases/bookworm/example-preseed.txt" rel="external nofollow noopener" target="_blank">bookworm</a> example preseed files.</p> </li> </ul> </li> </ol> <pre>### Apt setup
+# Choose, if you want to scan additional installation media
+# (default: false).
+d-i apt-setup/cdrom/set-first boolean false
+# You can choose to install non-free firmware.
+#d-i apt-setup/non-free-firmware boolean true
+# You can choose to install non-free and contrib software.
+#d-i apt-setup/non-free boolean true
+#d-i apt-setup/contrib boolean true
+# Uncomment the following line, if you don't want to have the sources.list
+# entry for a DVD/BD installation image active in the installed system
+# (entries for netinst or CD images will be disabled anyway, regardless of
+# this setting).
+#d-i apt-setup/disable-cdrom-entries boolean true
+# Uncomment this if you don't want to use a network mirror.
+#d-i apt-setup/use_mirror boolean false
+# Select which update services to use; define the mirrors to be used.
+# Values shown below are the normal defaults.
+#d-i apt-setup/services-select multiselect security, updates
+#d-i apt-setup/security_host string security.debian.org
+
+# Additional repositories, local[0-9] available
+#d-i apt-setup/local0/repository string \
+#       http://local.server/debian stable main
+#d-i apt-setup/local0/comment string local server
+# Enable deb-src lines
+#d-i apt-setup/local0/source boolean true
+# URL to the public key of the local repository; you must provide a key or
+# apt will complain about the unauthenticated repository and so the
+# sources.list line will be left commented out.
+#d-i apt-setup/local0/key string http://local.server/key
+# or one can provide it in-line by base64 encoding the contents of the
+# key file (with `base64 -w0`) and specifying it thus:
+#d-i apt-setup/local0/key string base64://LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCi4uLgo=
+# The content of the key file is checked to see if it appears to be ASCII-armoured.
+# If so it will be saved with an ".asc" extension, otherwise it gets a '.gpg' extension.
+# "keybox database" format is currently not supported. (see generators/60local in apt-setup's source)
+
+# By default the installer requires that repositories be authenticated
+# using a known gpg key. This setting can be used to disable that
+# authentication. Warning: Insecure, not recommended.
+#d-i debian-installer/allow_unauthenticated boolean true
+</pre> <ol> <li> <p>(continued)</p> <ul> <li> <p>As seen in the procedures above, <code class="language-plaintext highlighter-rouge">allow_unauthenticated</code> is set to true, which appears to only permit the installation to START when an untrusted repo mirror is found, but the mirror will be checked again before beginning the <code class="language-plaintext highlighter-rouge">apt-setup</code> phase, which <code class="language-plaintext highlighter-rouge">allow_unauthenticated</code> will not override.</p> <ul> <li> <p>This means that the <code class="language-plaintext highlighter-rouge">debian-installer</code> also requires the local APT mirror to be defined using the <code class="language-plaintext highlighter-rouge">d-i apt-setup/local0/repository</code> &amp; <code class="language-plaintext highlighter-rouge">d-i apt-setup/local0/key</code> preseed options in order for the PXE client to retrieve the public GPG key for the repo mirror and use it to validate the mirror, which seems to be configured properly through the preseed from Cobbler, verified with the following commands on the <code class="language-plaintext highlighter-rouge">debian-installer</code> system (and obviously can be done, since the workaround provided in this guide does essentially the same thing):</p> <div class="language-shell highlighter-rouge"> <div class="highlight"><pre class="highlight"><code>  debconf-get apt-setup/local0/repository
   debconf-get apt-setup/local0/key
   less /var/lib/preseed/log
   <span class="nb">cat</span> /var/log/syslog | <span class="nb">grep</span> <span class="s2">"GPG error"</span>
