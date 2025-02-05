@@ -32,93 +32,93 @@ cobbler import <span class="nt">--name</span><span class="o">=</span>SUSE-15.6 <
 </code></pre></div></div> <p>Configure the Cobbler Profile to use the new autoinstall (<code class="language-plaintext highlighter-rouge">autoyast.xml</code>) template:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler profile edit <span class="nt">--name</span> SUSE-15.6-x86_64 <span class="nt">--autoinstall</span> suse-15.6-autoyast.xml 
 </code></pre></div></div> <p>Create a new Cobbler System to automatically boot and install OpenSUSE Leap 15.6, replacing the <em>“aa:bb:cc:dd:ee:ff”</em> with the MAC address of your PXE client, being sure not to use a duplicate MAC or IP addresse of any other Cobbler System, and then sync up Cobbler:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler system add <span class="nt">--name</span> SUSE-15.6 <span class="nt">--profile</span> SUSE-15.6-x86_64 <span class="nt">--netboot-enabled</span> <span class="nb">true</span> <span class="nt">--hostname</span> SUSE-15-6 <span class="nt">--interface</span> eth0 <span class="nt">--static</span> <span class="nb">true</span> <span class="nt">--mac-address</span> <span class="s2">"aa:bb:cc:dd:ee:ff"</span> <span class="nt">--ip-address</span> 10.0.0.15 <span class="nt">--gateway</span> 10.0.0.1 <span class="nt">--netmask</span> 255.255.255.0 <span class="nt">--name-servers</span> <span class="s2">"10.0.0.1 1.1.1.1 10.0.0.10"</span>
 </code></pre></div></div> <p>Finally, sync up Cobbler:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler <span class="nb">sync</span>
-</code></pre></div></div> <h2 id="tips--troubleshooting">Tips &amp; Troubleshooting</h2> <ol> <li> <p>The <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler 3.3.6 Beginner’s Guide</a> <strong>Tips &amp; Troubleshooting</strong> section contains some basic recommendations and limitations of Cobbler which will not be repeated here.</p> </li> <li> <p>References</p> <ul> <li> <p><a href="https://cobbler.readthedocs.io/en/v3.3.6/cobblerd.html#autoinstallation-autoyast-kickstart" rel="external nofollow noopener" target="_blank">https://cobbler.readthedocs.io/en/v3.3.6/cobblerd.html#autoinstallation-autoyast-kickstart</a></p> </li> <li> <p><a href="https://doc.opensuse.org/projects/autoyast/" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/projects/autoyast/</a></p> <ul> <li><a href="https://doc.opensuse.org/projects/autoyast/#CreateProfile-CMS-new" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/projects/autoyast/#CreateProfile-CMS-new</a></li> </ul> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/html/book-autoyast/Invoking.html" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/html/book-autoyast/Invoking.html</a></p> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/</a></p> </li> <li> <p><a href="https://documentation.suse.com/sles/15-SP5/html/SLES-all/book-autoyast.html" rel="external nofollow noopener" target="_blank">https://documentation.suse.com/sles/15-SP5/html/SLES-all/book-autoyast.html</a></p> </li> <li> <p><a href="https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html" rel="external nofollow noopener" target="_blank">https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html</a></p> <ul> <li><a href="https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html#CreateProfile-Manual" rel="external nofollow noopener" target="_blank">https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html#CreateProfile-Manual</a></li> </ul> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/</a></p> </li> <li> <p><a href="https://en.opensuse.org/SDB:PXE_boot_installation" rel="external nofollow noopener" target="_blank">https://en.opensuse.org/SDB:PXE_boot_installation</a></p> </li> <li> <p><a href="https://www.suse.com/support/kb/doc/?id=000020329" rel="external nofollow noopener" target="_blank">https://www.suse.com/support/kb/doc/?id=000020329</a></p> </li> <li> <p><a href="https://www.linuxquestions.org/questions/linux-server-73/sles-equivalent-of-root-anaconda-ks-cfg-4175543325/" rel="external nofollow noopener" target="_blank">https://www.linuxquestions.org/questions/linux-server-73/sles-equivalent-of-root-anaconda-ks-cfg-4175543325/</a></p> </li> <li> <p><a href="https://www.w3schools.com/xml/xml_validator.asp" rel="external nofollow noopener" target="_blank">https://www.w3schools.com/xml/xml_validator.asp</a></p> </li> <li> <p><a href="https://forums.opensuse.org/t/pxe-autoyast-15-3-15-4/150848" rel="external nofollow noopener" target="_blank">https://forums.opensuse.org/t/pxe-autoyast-15-3-15-4/150848</a></p> </li> <li> <p><a href="https://opensuse-autoinstall.opensuse.narkive.com/8tBZNWIG/debugging-autoyast" rel="external nofollow noopener" target="_blank">https://opensuse-autoinstall.opensuse.narkive.com/8tBZNWIG/debugging-autoyast</a></p> </li> <li> <p><a href="https://opensuse-autoinstall.opensuse.narkive.com/441KAfMq/how-to-configure-services-using-autoyast" rel="external nofollow noopener" target="_blank">https://opensuse-autoinstall.opensuse.narkive.com/441KAfMq/how-to-configure-services-using-autoyast</a></p> </li> </ul> </li> <li> <p>Edited files</p> <ul> <li>suse-15.6-autoyast.xml</li> </ul> </li> </ol> <pre><?xml version="1.0"?>
-&lt;!DOCTYPE profile&gt;
-<profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
-  <deploy_image>
-    <image_installation config:type="boolean">false</image_installation>
-  </deploy_image>
+</code></pre></div></div> <h2 id="tips--troubleshooting">Tips &amp; Troubleshooting</h2> <ol> <li> <p>The <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler 3.3.6 Beginner’s Guide</a> <strong>Tips &amp; Troubleshooting</strong> section contains some basic recommendations and limitations of Cobbler which will not be repeated here.</p> </li> <li> <p>References</p> <ul> <li> <p><a href="https://cobbler.readthedocs.io/en/v3.3.6/cobblerd.html#autoinstallation-autoyast-kickstart" rel="external nofollow noopener" target="_blank">https://cobbler.readthedocs.io/en/v3.3.6/cobblerd.html#autoinstallation-autoyast-kickstart</a></p> </li> <li> <p><a href="https://doc.opensuse.org/projects/autoyast/" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/projects/autoyast/</a></p> <ul> <li><a href="https://doc.opensuse.org/projects/autoyast/#CreateProfile-CMS-new" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/projects/autoyast/#CreateProfile-CMS-new</a></li> </ul> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/html/book-autoyast/Invoking.html" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/html/book-autoyast/Invoking.html</a></p> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/</a></p> </li> <li> <p><a href="https://documentation.suse.com/sles/15-SP5/html/SLES-all/book-autoyast.html" rel="external nofollow noopener" target="_blank">https://documentation.suse.com/sles/15-SP5/html/SLES-all/book-autoyast.html</a></p> </li> <li> <p><a href="https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html" rel="external nofollow noopener" target="_blank">https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html</a></p> <ul> <li><a href="https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html#CreateProfile-Manual" rel="external nofollow noopener" target="_blank">https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html#CreateProfile-Manual</a></li> </ul> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/" rel="external nofollow noopener" target="_blank">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/</a></p> </li> <li> <p><a href="https://en.opensuse.org/SDB:PXE_boot_installation" rel="external nofollow noopener" target="_blank">https://en.opensuse.org/SDB:PXE_boot_installation</a></p> </li> <li> <p><a href="https://www.suse.com/support/kb/doc/?id=000020329" rel="external nofollow noopener" target="_blank">https://www.suse.com/support/kb/doc/?id=000020329</a></p> </li> <li> <p><a href="https://www.linuxquestions.org/questions/linux-server-73/sles-equivalent-of-root-anaconda-ks-cfg-4175543325/" rel="external nofollow noopener" target="_blank">https://www.linuxquestions.org/questions/linux-server-73/sles-equivalent-of-root-anaconda-ks-cfg-4175543325/</a></p> </li> <li> <p><a href="https://www.w3schools.com/xml/xml_validator.asp" rel="external nofollow noopener" target="_blank">https://www.w3schools.com/xml/xml_validator.asp</a></p> </li> <li> <p><a href="https://forums.opensuse.org/t/pxe-autoyast-15-3-15-4/150848" rel="external nofollow noopener" target="_blank">https://forums.opensuse.org/t/pxe-autoyast-15-3-15-4/150848</a></p> </li> <li> <p><a href="https://opensuse-autoinstall.opensuse.narkive.com/8tBZNWIG/debugging-autoyast" rel="external nofollow noopener" target="_blank">https://opensuse-autoinstall.opensuse.narkive.com/8tBZNWIG/debugging-autoyast</a></p> </li> <li> <p><a href="https://opensuse-autoinstall.opensuse.narkive.com/441KAfMq/how-to-configure-services-using-autoyast" rel="external nofollow noopener" target="_blank">https://opensuse-autoinstall.opensuse.narkive.com/441KAfMq/how-to-configure-services-using-autoyast</a></p> </li> </ul> </li> <li> <p>Edited files</p> <ul> <li>suse-15.6-autoyast.xml</li> </ul> </li> </ol> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE profile&gt;</span>
+<span class="nt">&lt;profile</span> <span class="na">xmlns=</span><span class="s">"http://www.suse.com/1.0/yast2ns"</span> <span class="na">xmlns:config=</span><span class="s">"http://www.suse.com/1.0/configns"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;deploy_image&gt;</span>
+    <span class="nt">&lt;image_installation</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/image_installation&gt;</span>
+  <span class="nt">&lt;/deploy_image&gt;</span>
   ## without the next 6 lines autoyast will ask for confirmation bevore installation
-  <general>
-    <mode>
-      <confirm config:type="boolean">false</confirm>
-      <final_reboot config:type="boolean">true</final_reboot>
-    </mode>
-  </general>
+  <span class="nt">&lt;general&gt;</span>
+    <span class="nt">&lt;mode&gt;</span>
+      <span class="nt">&lt;confirm</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/confirm&gt;</span>
+      <span class="nt">&lt;final_reboot</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/final_reboot&gt;</span>
+    <span class="nt">&lt;/mode&gt;</span>
+  <span class="nt">&lt;/general&gt;</span>
   $SNIPPET('addons.xml')
   $SNIPPET('hosts.xml')
-  <ntp-client>
-    <ntp_policy>auto</ntp_policy>
-    <ntp_servers config:type="list">
-      <ntp_server>
-        <address>us.pool.ntp.org</address>
-        <iburst config:type="boolean">false</iburst>
-        <offline config:type="boolean">false</offline>
-      </ntp_server>
-      <ntp_server>
-        <address>2.opensuse.pool.ntp.org</address>
-        <iburst config:type="boolean">false</iburst>
-        <offline config:type="boolean">false</offline>
-      </ntp_server>
-    </ntp_servers>
-    <ntp_sync>15</ntp_sync>
-  </ntp-client>
+  <span class="nt">&lt;ntp-client&gt;</span>
+    <span class="nt">&lt;ntp_policy&gt;</span>auto<span class="nt">&lt;/ntp_policy&gt;</span>
+    <span class="nt">&lt;ntp_servers</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;ntp_server&gt;</span>
+        <span class="nt">&lt;address&gt;</span>us.pool.ntp.org<span class="nt">&lt;/address&gt;</span>
+        <span class="nt">&lt;iburst</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/iburst&gt;</span>
+        <span class="nt">&lt;offline</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/offline&gt;</span>
+      <span class="nt">&lt;/ntp_server&gt;</span>
+      <span class="nt">&lt;ntp_server&gt;</span>
+        <span class="nt">&lt;address&gt;</span>2.opensuse.pool.ntp.org<span class="nt">&lt;/address&gt;</span>
+        <span class="nt">&lt;iburst</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/iburst&gt;</span>
+        <span class="nt">&lt;offline</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/offline&gt;</span>
+      <span class="nt">&lt;/ntp_server&gt;</span>
+    <span class="nt">&lt;/ntp_servers&gt;</span>
+    <span class="nt">&lt;ntp_sync&gt;</span>15<span class="nt">&lt;/ntp_sync&gt;</span>
+  <span class="nt">&lt;/ntp-client&gt;</span>
   $SNIPPET('kdump.xml')
-  <keyboard>
-    <keymap>us</keymap>
-  </keyboard>
-  <language>
-    <language>en_US</language>
-    <languages></languages>
-  </language>
-  <timezone>
-    <hwclock>UTC</hwclock>
-    <timezone>EST5EDT</timezone>
-  </timezone>
-  <software>
-    <packages config:type="list">
-      <package>chrony</package>
-      <package>sudo</package>
-      <package>openssh</package>
-    </packages>
-  </software>
-  <services-manager>
-    <services>
-      <enable config:type="list">
-        <service>sshd</service>
-      </enable>
-    </services>
-  </services-manager>
-  <login_settings></login_settings>
+  <span class="nt">&lt;keyboard&gt;</span>
+    <span class="nt">&lt;keymap&gt;</span>us<span class="nt">&lt;/keymap&gt;</span>
+  <span class="nt">&lt;/keyboard&gt;</span>
+  <span class="nt">&lt;language&gt;</span>
+    <span class="nt">&lt;language&gt;</span>en_US<span class="nt">&lt;/language&gt;</span>
+    <span class="nt">&lt;languages&gt;&lt;/languages&gt;</span>
+  <span class="nt">&lt;/language&gt;</span>
+  <span class="nt">&lt;timezone&gt;</span>
+    <span class="nt">&lt;hwclock&gt;</span>UTC<span class="nt">&lt;/hwclock&gt;</span>
+    <span class="nt">&lt;timezone&gt;</span>EST5EDT<span class="nt">&lt;/timezone&gt;</span>
+  <span class="nt">&lt;/timezone&gt;</span>
+  <span class="nt">&lt;software&gt;</span>
+    <span class="nt">&lt;packages</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;package&gt;</span>chrony<span class="nt">&lt;/package&gt;</span>
+      <span class="nt">&lt;package&gt;</span>sudo<span class="nt">&lt;/package&gt;</span>
+      <span class="nt">&lt;package&gt;</span>openssh<span class="nt">&lt;/package&gt;</span>
+    <span class="nt">&lt;/packages&gt;</span>
+  <span class="nt">&lt;/software&gt;</span>
+  <span class="nt">&lt;services-manager&gt;</span>
+    <span class="nt">&lt;services&gt;</span>
+      <span class="nt">&lt;enable</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;service&gt;</span>sshd<span class="nt">&lt;/service&gt;</span>
+      <span class="nt">&lt;/enable&gt;</span>
+    <span class="nt">&lt;/services&gt;</span>
+  <span class="nt">&lt;/services-manager&gt;</span>
+  <span class="nt">&lt;login_settings/&gt;</span>
   $SNIPPET('suse-15.4-networking.xml')
-  <users config:type="list">
-    <user>
-      <encrypted config:type="boolean">true</encrypted>
-      <fullname>root</fullname>
-      <gid>0</gid>
-      <home>/root</home>
-      <password_settings>
-        <expire></expire>
-        <flag></flag>
-        <inact></inact>
-        <max></max>
-        <min></min>
-        <warn></warn>
-      </password_settings>
-      <shell>/bin/bash</shell>
-      <uid>0</uid>
-        <user_password>$default_password_crypted</user_password>
-      <username>root</username>
-    </user>
-    <user>
-      <encrypted config:type="boolean">true</encrypted>
-      <username>suse</username>
-      <user_password>$default_password_crypted</user_password>
-    </user>
-  </users>
-  <scripts>
+  <span class="nt">&lt;users</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;user&gt;</span>
+      <span class="nt">&lt;encrypted</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
+      <span class="nt">&lt;fullname&gt;</span>root<span class="nt">&lt;/fullname&gt;</span>
+      <span class="nt">&lt;gid&gt;</span>0<span class="nt">&lt;/gid&gt;</span>
+      <span class="nt">&lt;home&gt;</span>/root<span class="nt">&lt;/home&gt;</span>
+      <span class="nt">&lt;password_settings&gt;</span>
+        <span class="nt">&lt;expire&gt;&lt;/expire&gt;</span>
+        <span class="nt">&lt;flag&gt;&lt;/flag&gt;</span>
+        <span class="nt">&lt;inact&gt;&lt;/inact&gt;</span>
+        <span class="nt">&lt;max&gt;&lt;/max&gt;</span>
+        <span class="nt">&lt;min&gt;&lt;/min&gt;</span>
+        <span class="nt">&lt;warn&gt;&lt;/warn&gt;</span>
+      <span class="nt">&lt;/password_settings&gt;</span>
+      <span class="nt">&lt;shell&gt;</span>/bin/bash<span class="nt">&lt;/shell&gt;</span>
+      <span class="nt">&lt;uid&gt;</span>0<span class="nt">&lt;/uid&gt;</span>
+        <span class="nt">&lt;user_password&gt;</span>$default_password_crypted<span class="nt">&lt;/user_password&gt;</span>
+      <span class="nt">&lt;username&gt;</span>root<span class="nt">&lt;/username&gt;</span>
+    <span class="nt">&lt;/user&gt;</span>
+    <span class="nt">&lt;user&gt;</span>
+      <span class="nt">&lt;encrypted</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
+      <span class="nt">&lt;username&gt;</span>suse<span class="nt">&lt;/username&gt;</span>
+      <span class="nt">&lt;user_password&gt;</span>$default_password_crypted<span class="nt">&lt;/user_password&gt;</span>
+    <span class="nt">&lt;/user&gt;</span>
+  <span class="nt">&lt;/users&gt;</span>
+  <span class="nt">&lt;scripts&gt;</span>
     ## we have to include the pre-scripts tag to get autoinstall_start included
-    <pre-scripts config:type="list">
+    <span class="nt">&lt;pre-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
       #set global $wrappedscript = 'autoinstall_start'
       $SNIPPET('suse-15.4_scriptwrapper.xml')
         ## SuSE has an annoying habit on ppc64 of changing the system
@@ -126,8 +126,8 @@ cobbler import <span class="nt">--name</span><span class="o">=</span>SUSE-15.6 <
         ## automatically re-install future OS.
         #set global $wrappedscript = 'save_boot_device'
         $SNIPPET('suse-15.4_scriptwrapper.xml')
-    </pre-scripts>
-    <post-scripts config:type="list">
+    <span class="nt">&lt;/pre-scripts&gt;</span>
+    <span class="nt">&lt;post-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
         ##
         ## This plugin wrapper provides the flexibility to call pure shell
         ## snippets which can be used directly on autoinst file and with
@@ -145,262 +145,149 @@ cobbler import <span class="nt">--name</span><span class="o">=</span>SUSE-15.6 <
         ## automatically re-install future OS.
         #set global $wrappedscript = 'restore_boot_device'
         $SNIPPET('suse-15.4_scriptwrapper.xml')
-    </post-scripts>
+    <span class="nt">&lt;/post-scripts&gt;</span>
     ## we have to include the init-scripts tag to get autoinstall_done included
-    <init-scripts config:type="list">
+    <span class="nt">&lt;init-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
       #set global $wrappedscript = 'autoinstall_done'
       $SNIPPET('suse-15.4_scriptwrapper.xml')
-    </init-scripts>
-  </scripts>
-</profile>
-</pre> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- suse-15.6-networking.xml
-</code></pre></div></div> <pre>#set $osversion = $getVar("os_version","")
-#set $hostname = $getVar("hostname","")
-#if $hostname == ""
-#set $hostname = $getVar("system_name","cobbler")
-#end if
-#if $getVar("dns_name_eth0","") != ""
-        #set $my_hostname = $hostname.split('.',1)[:1][0]
-        #set $my_domainname = $dns_name_eth0.split('.',1)[1:][0]
-#else
-        #set $my_hostname = $hostname
-        #set $my_domainname = "site"
-#end if
+    <span class="nt">&lt;/init-scripts&gt;</span>
+  <span class="nt">&lt;/scripts&gt;</span>
+<span class="nt">&lt;/profile&gt;</span>
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- suse-15.6-networking.xml
+</code></pre></div></div> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE profile&gt;</span>
+<span class="nt">&lt;profile</span> <span class="na">xmlns=</span><span class="s">"http://www.suse.com/1.0/yast2ns"</span> <span class="na">xmlns:config=</span><span class="s">"http://www.suse.com/1.0/configns"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;deploy_image&gt;</span>
+    <span class="nt">&lt;image_installation</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/image_installation&gt;</span>
+  <span class="nt">&lt;/deploy_image&gt;</span>
+  ## without the next 6 lines autoyast will ask for confirmation bevore installation
+  <span class="nt">&lt;general&gt;</span>
+    <span class="nt">&lt;mode&gt;</span>
+      <span class="nt">&lt;confirm</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/confirm&gt;</span>
+      <span class="nt">&lt;final_reboot</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/final_reboot&gt;</span>
+    <span class="nt">&lt;/mode&gt;</span>
+  <span class="nt">&lt;/general&gt;</span>
+  $SNIPPET('addons.xml')
+  $SNIPPET('hosts.xml')
+  <span class="nt">&lt;ntp-client&gt;</span>
+    <span class="nt">&lt;ntp_policy&gt;</span>auto<span class="nt">&lt;/ntp_policy&gt;</span>
+    <span class="nt">&lt;ntp_servers</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;ntp_server&gt;</span>
+        <span class="nt">&lt;address&gt;</span>us.pool.ntp.org<span class="nt">&lt;/address&gt;</span>
+        <span class="nt">&lt;iburst</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/iburst&gt;</span>
+        <span class="nt">&lt;offline</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/offline&gt;</span>
+      <span class="nt">&lt;/ntp_server&gt;</span>
+      <span class="nt">&lt;ntp_server&gt;</span>
+        <span class="nt">&lt;address&gt;</span>2.opensuse.pool.ntp.org<span class="nt">&lt;/address&gt;</span>
+        <span class="nt">&lt;iburst</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/iburst&gt;</span>
+        <span class="nt">&lt;offline</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/offline&gt;</span>
+      <span class="nt">&lt;/ntp_server&gt;</span>
+    <span class="nt">&lt;/ntp_servers&gt;</span>
+    <span class="nt">&lt;ntp_sync&gt;</span>15<span class="nt">&lt;/ntp_sync&gt;</span>
+  <span class="nt">&lt;/ntp-client&gt;</span>
+  $SNIPPET('kdump.xml')
+  <span class="nt">&lt;keyboard&gt;</span>
+    <span class="nt">&lt;keymap&gt;</span>us<span class="nt">&lt;/keymap&gt;</span>
+  <span class="nt">&lt;/keyboard&gt;</span>
+  <span class="nt">&lt;language&gt;</span>
+    <span class="nt">&lt;language&gt;</span>en_US<span class="nt">&lt;/language&gt;</span>
+    <span class="nt">&lt;languages&gt;&lt;/languages&gt;</span>
+  <span class="nt">&lt;/language&gt;</span>
+  <span class="nt">&lt;timezone&gt;</span>
+    <span class="nt">&lt;hwclock&gt;</span>UTC<span class="nt">&lt;/hwclock&gt;</span>
+    <span class="nt">&lt;timezone&gt;</span>EST5EDT<span class="nt">&lt;/timezone&gt;</span>
+  <span class="nt">&lt;/timezone&gt;</span>
+  <span class="nt">&lt;software&gt;</span>
+    <span class="nt">&lt;packages</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;package&gt;</span>chrony<span class="nt">&lt;/package&gt;</span>
+      <span class="nt">&lt;package&gt;</span>sudo<span class="nt">&lt;/package&gt;</span>
+      <span class="nt">&lt;package&gt;</span>openssh<span class="nt">&lt;/package&gt;</span>
+    <span class="nt">&lt;/packages&gt;</span>
+  <span class="nt">&lt;/software&gt;</span>
+  <span class="nt">&lt;services-manager&gt;</span>
+    <span class="nt">&lt;services&gt;</span>
+      <span class="nt">&lt;enable</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;service&gt;</span>sshd<span class="nt">&lt;/service&gt;</span>
+      <span class="nt">&lt;/enable&gt;</span>
+    <span class="nt">&lt;/services&gt;</span>
+  <span class="nt">&lt;/services-manager&gt;</span>
+  <span class="nt">&lt;login_settings/&gt;</span>
+  $SNIPPET('suse-15.4-networking.xml')
+  <span class="nt">&lt;users</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;user&gt;</span>
+      <span class="nt">&lt;encrypted</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
+      <span class="nt">&lt;fullname&gt;</span>root<span class="nt">&lt;/fullname&gt;</span>
+      <span class="nt">&lt;gid&gt;</span>0<span class="nt">&lt;/gid&gt;</span>
+      <span class="nt">&lt;home&gt;</span>/root<span class="nt">&lt;/home&gt;</span>
+      <span class="nt">&lt;password_settings&gt;</span>
+        <span class="nt">&lt;expire&gt;&lt;/expire&gt;</span>
+        <span class="nt">&lt;flag&gt;&lt;/flag&gt;</span>
+        <span class="nt">&lt;inact&gt;&lt;/inact&gt;</span>
+        <span class="nt">&lt;max&gt;&lt;/max&gt;</span>
+        <span class="nt">&lt;min&gt;&lt;/min&gt;</span>
+        <span class="nt">&lt;warn&gt;&lt;/warn&gt;</span>
+      <span class="nt">&lt;/password_settings&gt;</span>
+      <span class="nt">&lt;shell&gt;</span>/bin/bash<span class="nt">&lt;/shell&gt;</span>
+      <span class="nt">&lt;uid&gt;</span>0<span class="nt">&lt;/uid&gt;</span>
+        <span class="nt">&lt;user_password&gt;</span>$default_password_crypted<span class="nt">&lt;/user_password&gt;</span>
+      <span class="nt">&lt;username&gt;</span>root<span class="nt">&lt;/username&gt;</span>
+    <span class="nt">&lt;/user&gt;</span>
+    <span class="nt">&lt;user&gt;</span>
+      <span class="nt">&lt;encrypted</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
+      <span class="nt">&lt;username&gt;</span>suse<span class="nt">&lt;/username&gt;</span>
+      <span class="nt">&lt;user_password&gt;</span>$default_password_crypted<span class="nt">&lt;/user_password&gt;</span>
+    <span class="nt">&lt;/user&gt;</span>
+  <span class="nt">&lt;/users&gt;</span>
+  <span class="nt">&lt;scripts&gt;</span>
+    ## we have to include the pre-scripts tag to get autoinstall_start included
+    <span class="nt">&lt;pre-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+      #set global $wrappedscript = 'autoinstall_start'
+      $SNIPPET('suse-15.4_scriptwrapper.xml')
+        ## SuSE has an annoying habit on ppc64 of changing the system
+        ## boot order after installation. This makes it non-trivial to
+        ## automatically re-install future OS.
+        #set global $wrappedscript = 'save_boot_device'
+        $SNIPPET('suse-15.4_scriptwrapper.xml')
+    <span class="nt">&lt;/pre-scripts&gt;</span>
+    <span class="nt">&lt;post-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+        ##
+        ## This plugin wrapper provides the flexibility to call pure shell
+        ## snippets which can be used directly on autoinst file and with
+        ## wrapper on SuSE.
+        ##
+        ## To use it
+        ## - exchange name_of_pure_shell_snippet with the name of this shell snippet
+        ## - and remove the '##' in front of the line with suse-15.4_scriptwrapper.xml
+        ##
+        #set global $wrappedscript = 'name_of_pure_shell_snippet'
+        ## $SNIPPET('suse-15.4_scriptwrapper.xml')
 
-  <networking>
-## Figure out if we're automating OS installation for a system or a profile
-#if $getVar('system_name','') != ''
-    <keep_install_network config:type="boolean">false</keep_install_network>
-#else
-    <keep_install_network config:type="boolean">true</keep_install_network>
-#end if
-    <dhcp_options>
-      <dhclient_client_id></dhclient_client_id>
-      <dhclient_hostname_option></dhclient_hostname_option>
-    </dhcp_options>
-    <dns>
-      <dhcp_hostname config:type="boolean">false</dhcp_hostname>
-      <write_hostname config:type="boolean">false</write_hostname>
-      <resolv_conf_policy></resolv_conf_policy>
-      <hostname>$my_hostname</hostname>
-      <domain>$my_domainname</domain>
-      #if $getVar("name_servers_search",[]) != []
-      <searchlist config:type="list">
-      #for $sd in $name_servers_search
-        <search>$sd</search>
-      #end for
-      </searchlist>
-      #end if
-      #if $name_servers and $name_servers[0] != "":
-      <nameservers config:type="list">
-      #for $ns in $name_servers
-        <nameserver>$ns</nameserver>
-      #end for
-      </nameservers>
-      #end if
-    </dns>
-    <interfaces config:type="list">
-    #if $getVar("system_name","") != ""
-    #import re
-    #set $vlanpattern = $re.compile("[a-zA-Z0-9]+[\.][0-9]+")
-    #set $ikeys = $interfaces.keys()
-    #for $iface in $ikeys
-      #set $idata                = $interfaces[$iface]
-      #set $mac                  = $idata.get("mac_address", "").lower()
-      #set $static               = $idata.get("static", "")
-      #set $ip                   = $idata.get("ip_address", "")
-      #set $netmask              = $idata.get("netmask", "")
-      #set $static_routes        = $idata.get("static_routes", "")
-      #set $iface_type           = $idata.get("interface_type", "").lower()
-      #set $iface_master         = $idata.get("interface_master", "")
-      #set $bonding_opts         = $idata.get("bonding_opts", "").lower()
-      #set $ipv6_address         = $idata.get("ipv6_address", "")
-      #set $ipv6_secondaries     = $idata.get("ipv6_secondaries", "")
-      #set $ipv6_mtu             = $idata.get("ipv6_mtu", "")
-      #set $ipv6_default_gateway = $idata.get("ipv6_default_gateway", "")
-      #set $ipv6_static_routes   = $idata.get("ipv6_static_routes", "")
-      ## start of interface section
-      <interface>
-      #if $iface_type in ("bond", "master")
-        <bonding_master>yes</bonding_master>
-        <bonding_module_opts>$bonding_opts</bonding_module_opts>
-        #set $loop_ikeys = $interfaces.keys()
-        #set $loop_counter = 0
-        #for $loop_iface in $loop_ikeys
-          #set $loop_idata          = $interfaces[$loop_iface]
-          #set $loop_interface_type = $loop_idata.get("interface_type", "").lower()
-          #if $loop_interface_type in ("slave","bond_slave")
-             #if $loop_idata["interface_master"] != ""
-                #if $loop_idata["interface_master"].lower() == $iface.lower()
-        &lt;bonding_slave$loop_counter&gt;$loop_iface&lt;/bonding_slave$loop_counter&gt;
-                   #set $loop_counter += 1
-                #end if
-             #end if
-          #end if
-        #end for
-        #if $static
-        <bootproto>static</bootproto>
-        #else
-        <bootproto>dhcp</bootproto>
-        #end if
-        <device>$iface</device>
-        <ipaddr>$ip</ipaddr>
-        <netmask>$netmask</netmask>
-        <startmode>auto</startmode>
-        <usercontrol>no</usercontrol>
-      #elif $iface_type in ("slave","bond_slave","bridge_slave")
-        <bootproto>none</bootproto>
-        <device>$iface</device>
-        #if $osversion == "sles12" or re.match('^sles12sp[1234]$', $osversion)
-        <startmode>hotplug</startmode>
-        #else
-        <startmode>off</startmode>
-        #end if
-        <usercontrol>no</usercontrol>
-      #elif $iface_type in ("","na")
-        #if $static
-        <bootproto>static</bootproto>
-        #else
-        <bootproto>dhcp</bootproto>
-        #end if
-        <device>$iface</device>
-        <lladdr>$mac</lladdr>
-        <ipaddr>$ip</ipaddr>
-        <netmask>$netmask</netmask>
-        <startmode>auto</startmode>
-        <usercontrol>no</usercontrol>
-      #end if
-      ## ===================================================================
-      ## VLAN configuration
-      ## ===================================================================
-      #if $vlanpattern.match($iface)
-        #set [$etherdevice, $vlanid] = $iface.split(".")
-        <etherdevice>$etherdevice</etherdevice>
-        <vlan_id>$vlanid</vlan_id>
-      #end if
-      ## ===================================================================
-      ## IPv6 support
-      ## ===================================================================
-      #if $ipv6_address != ""
-        <aliases>
-          <alias0>
-            <ipaddr>$ipv6_address</ipaddr>
-            <label>a0</label>
-            <prefixlen>64</prefixlen>
-          </alias0>
-        #if $ipv6_secondaries != ""
-          #set $s = 1
-          #for $alias in $ipv6_secondaries
-          &lt;alias${s}&gt;
-            <ipaddr>$alias</ipaddr>
-            <label>a${s}</label>
-            <prefixlen>64</prefixlen>
-          &lt;/alias${s}&gt;
-            #set $s += 1
-          #end for
-        #end if
-        </aliases>
-      #end if
-      </interface>
-    #end for
-    #end if
-    </interfaces>
-    <backend>network_manager</backend>
-    #if $getVar("system_name","") != ""
-    <net-udev config:type="list">
-    #set $ikeys = $interfaces.keys()
-    #for $iface in $ikeys
-      #set $idata = $interfaces[$iface]
-      #set $mac            = $idata["mac_address"]
-      #set $interface_type = $idata["interface_type"]
-      #if $mac.lower() != ""
-      #if $interface_type.lower() not in ["bond","bridge"]
-      <rule>
-        <name>$iface</name>
-        <rule>ATTR{address}</rule>
-        <value>$mac.lower()</value>
-      </rule>
-      #end if
-      #end if
-    #end for
-    </net-udev>
-    #end if
-    <routing>
-      <ip_forward config:type="boolean">false</ip_forward>
-      #if $getVar("system_name","") != ""
-      <routes config:type="list">
-        <route>
-          <destination>default</destination>
-          <netmask>-</netmask>
-          <device>-</device>
-          <gateway>$gateway</gateway>
-        </route>
-        ## ===================================================================
-        ## IPv4 static route setup
-        ## ===================================================================
-        #for $iface in $ikeys
-          #set $idata         = $interfaces[$iface]
-          #set $static_routes = $idata.get("static_routes", "")
-          #for $route in $static_routes
-            #set routepattern = $re.compile("[0-9/.]+:[0-9.]+")
-            #if $routepattern.match($route)
-              #set $routebits = $route.split(":")
-              #set [$network, $router] = $route.split(":")
-        <route>
-          <destination>$network</destination>
-          <netmask>-</netmask>
-          <device>$iface</device>
-          <gateway>$router</gateway>
-        </route>
-            #end if
-          #end for
-        #end for
-        ## ===================================================================
-        ## IPv6 routing setup
-        ## ===================================================================
-        #for $iface in $ikeys
-          #set $idata                = $interfaces[$iface]
-          #set $ipv6_static_routes   = $idata.get("ipv6_static_routes", "")
-          #set $ipv6_default_gateway = $idata.get("ipv6_default_gateway", "")
-          #if $ipv6_default_gateway != ""
-        <route>
-          <destination>default</destination>
-          <netmask>-</netmask>
-          <device>$iface</device>
-          <gateway>$ipv6_default_gateway</gateway>
-        </route>
-          #end if
-          #for $route in $ipv6_static_routes
-            #set routepattern = $re.compile("[0-9a-fA-F:/]+,[0-9a-fA-F:]+")
-            #if $routepattern.match($route)
-              #set $routebits = $route.split(",")
-              #set [$network, $router] = $route.split(",")
-        <route>
-          <destination>$network</destination>
-          <netmask>-</netmask>
-          <device>$iface</device>
-          <gateway>$router</gateway>
-        </route>
-            #end if
-          #end for
-        #end for
-      </routes>
-      #end if
-    </routing>
-  </networking>
-</pre> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- suse-15.6_scriptwrapper.xml
-</code></pre></div></div> <pre><script>
-##        <debug config:type="boolean">true</debug>
-##        <feedback config:type="boolean">false</feedback>
-##        <location></location>
+        ## SuSE has an annoying habit on ppc64 of changing the system
+        ## boot order after installation. This makes it non-trivial to
+        ## automatically re-install future OS.
+        #set global $wrappedscript = 'restore_boot_device'
+        $SNIPPET('suse-15.4_scriptwrapper.xml')
+    <span class="nt">&lt;/post-scripts&gt;</span>
+    ## we have to include the init-scripts tag to get autoinstall_done included
+    <span class="nt">&lt;init-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+      #set global $wrappedscript = 'autoinstall_done'
+      $SNIPPET('suse-15.4_scriptwrapper.xml')
+    <span class="nt">&lt;/init-scripts&gt;</span>
+  <span class="nt">&lt;/scripts&gt;</span>
+<span class="nt">&lt;/profile&gt;</span>
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- suse-15.6_scriptwrapper.xml
+</code></pre></div></div> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
+##        <span class="nt">&lt;debug</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/debug&gt;</span>
+##        <span class="nt">&lt;feedback</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/feedback&gt;</span>
+##        <span class="nt">&lt;location&gt;&lt;/location&gt;</span>
 #set $filename = $wrappedscript.replace('/', '_')
-        <filename>$filename</filename>
-        <source><![CDATA[
+        <span class="nt">&lt;filename&gt;</span>$filename<span class="nt">&lt;/filename&gt;</span>
+        <span class="nt">&lt;source&gt;</span><span class="cp">&lt;![CDATA[
 $SNIPPET($wrappedscript)
-        ]]></source>
-      </script>
-</pre> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- autoinstall_start
-</code></pre></div></div> <pre>#set system_name = $getVar('system_name','')
+        ]]&gt;</span><span class="nt">&lt;/source&gt;</span>
+      <span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- autoinstall_start
+</code></pre></div></div> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#set system_name = $getVar('system_name','')
 #set profile_name = $getVar('profile_name','')
 #if $system_name != ''
     #set object_type = 'system'
@@ -427,8 +314,8 @@ $SNIPPET($wrappedscript)
     #end if
 #end if
 #echo $runpre
-</pre> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- autoinstall_done
-</code></pre></div></div> <pre>#set system_name = $getVar('system_name','')
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- autoinstall_done
+</code></pre></div></div> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#set system_name = $getVar('system_name','')
 #set profile_name = $getVar('profile_name','')
 #if $system_name != ''
     #set object_type = 'system'
@@ -490,4 +377,4 @@ $SNIPPET($wrappedscript)
 #echo $nopxe
 #echo $save_autoinstall
 #echo $runpost
-</pre> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/Cobbler-v3.3.7-XCP-ng-Deployment-Guide/">Cobbler (v3.3.7) XCP-ng Deployment Guide</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide/">Cobbler (v3.3.7) Ubuntu Deployment Guide</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/Cobbler-v3.3.7-Debian-Deployment-Guide/">Cobbler (v3.3.7) Debian Deployment Guide</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler v3.3.6 Beginner's Guide</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2025 Shane Logan. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script type="text/javascript">window.MathJax={tex:{tags:"ams"}};</script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script type="text/javascript">function progressBarSetup(){"max"in document.createElement("progress")?(initializeProgressElement(),$(document).on("scroll",function(){progressBar.attr({value:getCurrentScrollPosition()})}),$(window).on("resize",initializeProgressElement)):(resizeProgressBar(),$(document).on("scroll",resizeProgressBar),$(window).on("resize",resizeProgressBar))}function getCurrentScrollPosition(){return $(window).scrollTop()}function initializeProgressElement(){let e=$("#navbar").outerHeight(!0);$("body").css({"padding-top":e}),$("progress-container").css({"padding-top":e}),progressBar.css({top:e}),progressBar.attr({max:getDistanceToScroll(),value:getCurrentScrollPosition()})}function getDistanceToScroll(){return $(document).height()-$(window).height()}function resizeProgressBar(){progressBar.css({width:getWidthPercentage()+"%"})}function getWidthPercentage(){return getCurrentScrollPosition()/getDistanceToScroll()*100}const progressBar=$("#progress");window.onload=function(){setTimeout(progressBarSetup,50)};</script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>addBackToTop();</script> <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script>let searchTheme=determineComputedTheme();const ninjaKeys=document.querySelector("ninja-keys");"dark"===searchTheme?ninjaKeys.classList.add("dark"):ninjaKeys.classList.remove("dark");const openSearchModal=()=>{const e=$("#navbarNav");e.hasClass("show")&&e.collapse("hide"),ninjaKeys.open()};</script> <script>const ninja=document.querySelector("ninja-keys");ninja.data=[{id:"nav-about",title:"about",section:"Navigation",handler:()=>{window.location.href="/"}},{id:"nav-blog",title:"blog",description:"",section:"Navigation",handler:()=>{window.location.href="/blog/"}},{id:"nav-publications",title:"publications",description:"publications by categories in reversed chronological order. generated by jekyll-scholar.",section:"Navigation",handler:()=>{window.location.href="/publications/"}},{id:"nav-projects",title:"projects",description:"A growing collection of your cool projects.",section:"Navigation",handler:()=>{window.location.href="/projects/"}},{id:"nav-repositories",title:"repositories",description:"Edit the `_data/repositories.yml` and change the `github_users` and `github_repos` lists to include your own GitHub profile and repositories.",section:"Navigation",handler:()=>{window.location.href="/repositories/"}},{id:"nav-cv",title:"cv",description:"This is a description of the page. You can modify it in '_pages/cv.md'. You can also change or remove the top pdf download button.",section:"Navigation",handler:()=>{window.location.href="/cv/"}},{id:"dropdown-publications",title:"publications",description:"",section:"Dropdown",handler:()=>{window.location.href=""}},{id:"dropdown-projects",title:"projects",description:"",section:"Dropdown",handler:()=>{window.location.href=""}},{id:"dropdown-blog",title:"blog",description:"",section:"Dropdown",handler:()=>{window.location.href="/blog/"}},{id:"post-cobbler-v3-3-7-xcp-ng-deployment-guide",title:"Cobbler (v3.3.7) XCP-ng Deployment Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.7-XCP-ng-Deployment-Guide/"}},{id:"post-cobbler-v3-3-7-ubuntu-deployment-guide",title:"Cobbler (v3.3.7) Ubuntu Deployment Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide/"}},{id:"post-cobbler-v3-3-7-opensuse-deployment-guide",title:"Cobbler (v3.3.7) OpenSUSE Deployment Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.7-OpenSUSE-Deployment-Guide/"}},{id:"post-cobbler-v3-3-7-debian-deployment-guide",title:"Cobbler (v3.3.7) Debian Deployment Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.7-Debian-Deployment-Guide/"}},{id:"post-cobbler-v3-3-6-beginner-39-s-guide",title:"Cobbler v3.3.6 Beginner's Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/"}},{id:"news-a-simple-inline-announcement",title:"A simple inline announcement.",description:"",section:"News"},{id:"news-a-long-announcement-with-details",title:"A long announcement with details",description:"",section:"News",handler:()=>{window.location.href="/news/announcement_2/"}},{id:"news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",title:'A simple inline announcement with Markdown emoji! <img class="emoji" title=":sparkles:" alt=":sparkles:" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" height="20" width="20"> <img class="emoji" title=":smile:" alt=":smile:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png" height="20" width="20">',description:"",section:"News"},{id:"socials-email",title:"Send email",section:"Socials",handler:()=>{window.open("mailto:%73%68%61%6E%65%6C%6F%67%61%6E%34%36%38@%67%6D%61%69%6C.%63%6F%6D","_blank")}},{id:"socials-google-scholar",title:"Google Scholar",section:"Socials",handler:()=>{window.open("https://scholar.google.com/citations?user=qc6CJjYAAAAJ","_blank")}},{id:"socials-rss",title:"RSS Feed",section:"Socials",handler:()=>{window.open("/feed.xml","_blank")}},{id:"light-theme",title:"Change theme to light",description:"Change the theme of the site to Light",section:"Theme",handler:()=>{setThemeSetting("light")}},{id:"dark-theme",title:"Change theme to dark",description:"Change the theme of the site to Dark",section:"Theme",handler:()=>{setThemeSetting("dark")}},{id:"system-theme",title:"Use system default theme",description:"Change the theme of the site to System Default",section:"Theme",handler:()=>{setThemeSetting("system")}}];</script> <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script> </body> </html>
+</code></pre></div></div> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/Cobbler-v3.3.7-XCP-ng-Deployment-Guide/">Cobbler (v3.3.7) XCP-ng Deployment Guide</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide/">Cobbler (v3.3.7) Ubuntu Deployment Guide</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/Cobbler-v3.3.7-Debian-Deployment-Guide/">Cobbler (v3.3.7) Debian Deployment Guide</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler v3.3.6 Beginner's Guide</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2025 Shane Logan. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script type="text/javascript">window.MathJax={tex:{tags:"ams"}};</script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script type="text/javascript">function progressBarSetup(){"max"in document.createElement("progress")?(initializeProgressElement(),$(document).on("scroll",function(){progressBar.attr({value:getCurrentScrollPosition()})}),$(window).on("resize",initializeProgressElement)):(resizeProgressBar(),$(document).on("scroll",resizeProgressBar),$(window).on("resize",resizeProgressBar))}function getCurrentScrollPosition(){return $(window).scrollTop()}function initializeProgressElement(){let e=$("#navbar").outerHeight(!0);$("body").css({"padding-top":e}),$("progress-container").css({"padding-top":e}),progressBar.css({top:e}),progressBar.attr({max:getDistanceToScroll(),value:getCurrentScrollPosition()})}function getDistanceToScroll(){return $(document).height()-$(window).height()}function resizeProgressBar(){progressBar.css({width:getWidthPercentage()+"%"})}function getWidthPercentage(){return getCurrentScrollPosition()/getDistanceToScroll()*100}const progressBar=$("#progress");window.onload=function(){setTimeout(progressBarSetup,50)};</script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>addBackToTop();</script> <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script>let searchTheme=determineComputedTheme();const ninjaKeys=document.querySelector("ninja-keys");"dark"===searchTheme?ninjaKeys.classList.add("dark"):ninjaKeys.classList.remove("dark");const openSearchModal=()=>{const e=$("#navbarNav");e.hasClass("show")&&e.collapse("hide"),ninjaKeys.open()};</script> <script>const ninja=document.querySelector("ninja-keys");ninja.data=[{id:"nav-about",title:"about",section:"Navigation",handler:()=>{window.location.href="/"}},{id:"nav-blog",title:"blog",description:"",section:"Navigation",handler:()=>{window.location.href="/blog/"}},{id:"nav-publications",title:"publications",description:"publications by categories in reversed chronological order. generated by jekyll-scholar.",section:"Navigation",handler:()=>{window.location.href="/publications/"}},{id:"nav-projects",title:"projects",description:"A growing collection of your cool projects.",section:"Navigation",handler:()=>{window.location.href="/projects/"}},{id:"nav-repositories",title:"repositories",description:"Edit the `_data/repositories.yml` and change the `github_users` and `github_repos` lists to include your own GitHub profile and repositories.",section:"Navigation",handler:()=>{window.location.href="/repositories/"}},{id:"nav-cv",title:"cv",description:"This is a description of the page. You can modify it in '_pages/cv.md'. You can also change or remove the top pdf download button.",section:"Navigation",handler:()=>{window.location.href="/cv/"}},{id:"dropdown-publications",title:"publications",description:"",section:"Dropdown",handler:()=>{window.location.href=""}},{id:"dropdown-projects",title:"projects",description:"",section:"Dropdown",handler:()=>{window.location.href=""}},{id:"dropdown-blog",title:"blog",description:"",section:"Dropdown",handler:()=>{window.location.href="/blog/"}},{id:"post-cobbler-v3-3-7-xcp-ng-deployment-guide",title:"Cobbler (v3.3.7) XCP-ng Deployment Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.7-XCP-ng-Deployment-Guide/"}},{id:"post-cobbler-v3-3-7-ubuntu-deployment-guide",title:"Cobbler (v3.3.7) Ubuntu Deployment Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide/"}},{id:"post-cobbler-v3-3-7-opensuse-deployment-guide",title:"Cobbler (v3.3.7) OpenSUSE Deployment Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.7-OpenSUSE-Deployment-Guide/"}},{id:"post-cobbler-v3-3-7-debian-deployment-guide",title:"Cobbler (v3.3.7) Debian Deployment Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.7-Debian-Deployment-Guide/"}},{id:"post-cobbler-v3-3-6-beginner-39-s-guide",title:"Cobbler v3.3.6 Beginner's Guide",description:"",section:"Posts",handler:()=>{window.location.href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/"}},{id:"news-a-simple-inline-announcement",title:"A simple inline announcement.",description:"",section:"News"},{id:"news-a-long-announcement-with-details",title:"A long announcement with details",description:"",section:"News",handler:()=>{window.location.href="/news/announcement_2/"}},{id:"news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",title:'A simple inline announcement with Markdown emoji! <img class="emoji" title=":sparkles:" alt=":sparkles:" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" height="20" width="20"> <img class="emoji" title=":smile:" alt=":smile:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png" height="20" width="20">',description:"",section:"News"},{id:"socials-email",title:"Send email",section:"Socials",handler:()=>{window.open("mailto:%73%68%61%6E%65%6C%6F%67%61%6E%34%36%38@%67%6D%61%69%6C.%63%6F%6D","_blank")}},{id:"socials-google-scholar",title:"Google Scholar",section:"Socials",handler:()=>{window.open("https://scholar.google.com/citations?user=qc6CJjYAAAAJ","_blank")}},{id:"socials-rss",title:"RSS Feed",section:"Socials",handler:()=>{window.open("/feed.xml","_blank")}},{id:"light-theme",title:"Change theme to light",description:"Change the theme of the site to Light",section:"Theme",handler:()=>{setThemeSetting("light")}},{id:"dark-theme",title:"Change theme to dark",description:"Change the theme of the site to Dark",section:"Theme",handler:()=>{setThemeSetting("dark")}},{id:"system-theme",title:"Use system default theme",description:"Change the theme of the site to System Default",section:"Theme",handler:()=>{setThemeSetting("system")}}];</script> <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script> </body> </html>
