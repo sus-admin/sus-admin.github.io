@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://sus-admin.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://sus-admin.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-02-05T01:00:46+00:00</updated><id>https://sus-admin.github.io/feed.xml</id><title type="html">Shane Logan</title><subtitle>various detailed technical procedures. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Cobbler (v3.3.7) OpenSUSE Deployment Guide</title><link href="https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-OpenSUSE-Deployment-Guide/" rel="alternate" type="text/html" title="Cobbler (v3.3.7) OpenSUSE Deployment Guide"/><published>2024-12-11T00:00:00+00:00</published><updated>2024-12-11T00:00:00+00:00</updated><id>https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-OpenSUSE-Deployment-Guide</id><content type="html" xml:base="https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-OpenSUSE-Deployment-Guide/"><![CDATA[<p>This guide assumes that you have a Fedora 34 server or workstation system configured to run Cobbler v3.3.7 similarly to the <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler v3.3.6 Beginner’s guide</a>.</p> <h2 class="no_toc" id="table-of-contents">Table of Contents</h2> <ol id="markdown-toc"> <li><a href="#objective" id="markdown-toc-objective">Objective</a></li> <li><a href="#opensuse-leap-15-pxe-deployment" id="markdown-toc-opensuse-leap-15-pxe-deployment">OpenSUSE Leap 15 PXE Deployment</a></li> <li><a href="#tips--troubleshooting" id="markdown-toc-tips--troubleshooting">Tips &amp; Troubleshooting</a></li> </ol> <h2 id="objective">Objective</h2> <p>Starting where the <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Beginner’s guide</a> left off, further configure the Cobbler v3.3.7 server to deploy OpenSUSE Leap 15 <em>server</em> via PXE network boot, using the same system and network environment. This guide assumes that you still have <code class="language-plaintext highlighter-rouge">selinux</code> and <code class="language-plaintext highlighter-rouge">firewalld</code> configured and enabled as described in the Beginner’s guide.</p> <h2 id="opensuse-leap-15-pxe-deployment">OpenSUSE Leap 15 PXE Deployment</h2> <p>This guide has been tested with OpenSUSE Leap 15.4, 15.5, &amp; 15.6, which can be obtained from the sites below:</p> <ul> <li> <p><a href="https://download.opensuse.org/distribution/leap/">download.opensuse.org</a></p> </li> <li> <p><a href="https://provo-mirror.opensuse.org/distribution/leap/">provo-mirror.opensuse.org</a></p> </li> <li> <p><a href="https://cdimage.debian.org/mirror/opensuse.org/distribution/leap/">cdimage.debian.org</a></p> </li> </ul> <p>This guide will detail Leap 15.6 specifically; start by downloading the installation media on the Cobbler server:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/Downloads
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://sus-admin.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://sus-admin.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-02-05T02:43:30+00:00</updated><id>https://sus-admin.github.io/feed.xml</id><title type="html">Shane Logan</title><subtitle>various detailed technical procedures. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Cobbler (v3.3.7) OpenSUSE Deployment Guide</title><link href="https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-OpenSUSE-Deployment-Guide/" rel="alternate" type="text/html" title="Cobbler (v3.3.7) OpenSUSE Deployment Guide"/><published>2024-12-11T00:00:00+00:00</published><updated>2024-12-11T00:00:00+00:00</updated><id>https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-OpenSUSE-Deployment-Guide</id><content type="html" xml:base="https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-OpenSUSE-Deployment-Guide/"><![CDATA[<p>This guide assumes that you have a Fedora 34 server or workstation system configured to run Cobbler v3.3.7 similarly to the <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler v3.3.6 Beginner’s guide</a>.</p> <h2 class="no_toc" id="table-of-contents">Table of Contents</h2> <ol id="markdown-toc"> <li><a href="#objective" id="markdown-toc-objective">Objective</a></li> <li><a href="#opensuse-leap-15-pxe-deployment" id="markdown-toc-opensuse-leap-15-pxe-deployment">OpenSUSE Leap 15 PXE Deployment</a></li> <li><a href="#tips--troubleshooting" id="markdown-toc-tips--troubleshooting">Tips &amp; Troubleshooting</a></li> </ol> <h2 id="objective">Objective</h2> <p>Starting where the <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Beginner’s guide</a> left off, further configure the Cobbler v3.3.7 server to deploy OpenSUSE Leap 15 <em>server</em> via PXE network boot, using the same system and network environment. This guide assumes that you still have <code class="language-plaintext highlighter-rouge">selinux</code> and <code class="language-plaintext highlighter-rouge">firewalld</code> configured and enabled as described in the Beginner’s guide.</p> <h2 id="opensuse-leap-15-pxe-deployment">OpenSUSE Leap 15 PXE Deployment</h2> <p>This guide has been tested with OpenSUSE Leap 15.4, 15.5, &amp; 15.6, which can be obtained from the sites below:</p> <ul> <li> <p><a href="https://download.opensuse.org/distribution/leap/">download.opensuse.org</a></p> </li> <li> <p><a href="https://provo-mirror.opensuse.org/distribution/leap/">provo-mirror.opensuse.org</a></p> </li> <li> <p><a href="https://cdimage.debian.org/mirror/opensuse.org/distribution/leap/">cdimage.debian.org</a></p> </li> </ul> <p>This guide will detail Leap 15.6 specifically; start by downloading the installation media on the Cobbler server:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/Downloads
 wget https://provo-mirror.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-DVD-x86_64-Media.iso
 </code></pre></div></div> <p>Mount the installation media and run the <code class="language-plaintext highlighter-rouge">cobbler import</code>:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span> <span class="nt">-d</span> /mnt/SUSE <span class="o">]</span> <span class="o">||</span> <span class="nb">mkdir</span> /mnt/SUSE
 mount <span class="nt">-t</span> iso9660 <span class="nt">-o</span> loop,ro /home/fedora/Downloads/openSUSE-Leap-15.6-DVD-x86_64-Media.iso /mnt/SUSE
@@ -32,93 +32,93 @@ cobbler import <span class="nt">--name</span><span class="o">=</span>SUSE-15.6 <
 </code></pre></div></div> <p>Configure the Cobbler Profile to use the new autoinstall (<code class="language-plaintext highlighter-rouge">autoyast.xml</code>) template:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler profile edit <span class="nt">--name</span> SUSE-15.6-x86_64 <span class="nt">--autoinstall</span> suse-15.6-autoyast.xml 
 </code></pre></div></div> <p>Create a new Cobbler System to automatically boot and install OpenSUSE Leap 15.6, replacing the <em>“aa:bb:cc:dd:ee:ff”</em> with the MAC address of your PXE client, being sure not to use a duplicate MAC or IP addresse of any other Cobbler System, and then sync up Cobbler:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler system add <span class="nt">--name</span> SUSE-15.6 <span class="nt">--profile</span> SUSE-15.6-x86_64 <span class="nt">--netboot-enabled</span> <span class="nb">true</span> <span class="nt">--hostname</span> SUSE-15-6 <span class="nt">--interface</span> eth0 <span class="nt">--static</span> <span class="nb">true</span> <span class="nt">--mac-address</span> <span class="s2">"aa:bb:cc:dd:ee:ff"</span> <span class="nt">--ip-address</span> 10.0.0.15 <span class="nt">--gateway</span> 10.0.0.1 <span class="nt">--netmask</span> 255.255.255.0 <span class="nt">--name-servers</span> <span class="s2">"10.0.0.1 1.1.1.1 10.0.0.10"</span>
 </code></pre></div></div> <p>Finally, sync up Cobbler:</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler <span class="nb">sync</span>
-</code></pre></div></div> <h2 id="tips--troubleshooting">Tips &amp; Troubleshooting</h2> <ol> <li> <p>The <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler 3.3.6 Beginner’s Guide</a> <strong>Tips &amp; Troubleshooting</strong> section contains some basic recommendations and limitations of Cobbler which will not be repeated here.</p> </li> <li> <p>References</p> <ul> <li> <p><a href="https://cobbler.readthedocs.io/en/v3.3.6/cobblerd.html#autoinstallation-autoyast-kickstart">https://cobbler.readthedocs.io/en/v3.3.6/cobblerd.html#autoinstallation-autoyast-kickstart</a></p> </li> <li> <p><a href="https://doc.opensuse.org/projects/autoyast/">https://doc.opensuse.org/projects/autoyast/</a></p> <ul> <li><a href="https://doc.opensuse.org/projects/autoyast/#CreateProfile-CMS-new">https://doc.opensuse.org/projects/autoyast/#CreateProfile-CMS-new</a></li> </ul> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/html/book-autoyast/Invoking.html">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/html/book-autoyast/Invoking.html</a></p> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/</a></p> </li> <li> <p><a href="https://documentation.suse.com/sles/15-SP5/html/SLES-all/book-autoyast.html">https://documentation.suse.com/sles/15-SP5/html/SLES-all/book-autoyast.html</a></p> </li> <li> <p><a href="https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html">https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html</a></p> <ul> <li><a href="https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html#CreateProfile-Manual">https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html#CreateProfile-Manual</a></li> </ul> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/</a></p> </li> <li> <p><a href="https://en.opensuse.org/SDB:PXE_boot_installation">https://en.opensuse.org/SDB:PXE_boot_installation</a></p> </li> <li> <p><a href="https://www.suse.com/support/kb/doc/?id=000020329">https://www.suse.com/support/kb/doc/?id=000020329</a></p> </li> <li> <p><a href="https://www.linuxquestions.org/questions/linux-server-73/sles-equivalent-of-root-anaconda-ks-cfg-4175543325/">https://www.linuxquestions.org/questions/linux-server-73/sles-equivalent-of-root-anaconda-ks-cfg-4175543325/</a></p> </li> <li> <p><a href="https://www.w3schools.com/xml/xml_validator.asp">https://www.w3schools.com/xml/xml_validator.asp</a></p> </li> <li> <p><a href="https://forums.opensuse.org/t/pxe-autoyast-15-3-15-4/150848">https://forums.opensuse.org/t/pxe-autoyast-15-3-15-4/150848</a></p> </li> <li> <p><a href="https://opensuse-autoinstall.opensuse.narkive.com/8tBZNWIG/debugging-autoyast">https://opensuse-autoinstall.opensuse.narkive.com/8tBZNWIG/debugging-autoyast</a></p> </li> <li> <p><a href="https://opensuse-autoinstall.opensuse.narkive.com/441KAfMq/how-to-configure-services-using-autoyast">https://opensuse-autoinstall.opensuse.narkive.com/441KAfMq/how-to-configure-services-using-autoyast</a></p> </li> </ul> </li> <li> <p>Edited files</p> <ul> <li>suse-15.6-autoyast.xml</li> </ul> </li> </ol> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
-<span class="cp">&lt;!DOCTYPE profile&gt;</span>
-<span class="nt">&lt;profile</span> <span class="na">xmlns=</span><span class="s">"http://www.suse.com/1.0/yast2ns"</span> <span class="na">xmlns:config=</span><span class="s">"http://www.suse.com/1.0/configns"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;deploy_image&gt;</span>
-    <span class="nt">&lt;image_installation</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/image_installation&gt;</span>
-  <span class="nt">&lt;/deploy_image&gt;</span>
+</code></pre></div></div> <h2 id="tips--troubleshooting">Tips &amp; Troubleshooting</h2> <ol> <li> <p>The <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler 3.3.6 Beginner’s Guide</a> <strong>Tips &amp; Troubleshooting</strong> section contains some basic recommendations and limitations of Cobbler which will not be repeated here.</p> </li> <li> <p>References</p> <ul> <li> <p><a href="https://cobbler.readthedocs.io/en/v3.3.6/cobblerd.html#autoinstallation-autoyast-kickstart">https://cobbler.readthedocs.io/en/v3.3.6/cobblerd.html#autoinstallation-autoyast-kickstart</a></p> </li> <li> <p><a href="https://doc.opensuse.org/projects/autoyast/">https://doc.opensuse.org/projects/autoyast/</a></p> <ul> <li><a href="https://doc.opensuse.org/projects/autoyast/#CreateProfile-CMS-new">https://doc.opensuse.org/projects/autoyast/#CreateProfile-CMS-new</a></li> </ul> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/html/book-autoyast/Invoking.html">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/html/book-autoyast/Invoking.html</a></p> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/</a></p> </li> <li> <p><a href="https://documentation.suse.com/sles/15-SP5/html/SLES-all/book-autoyast.html">https://documentation.suse.com/sles/15-SP5/html/SLES-all/book-autoyast.html</a></p> </li> <li> <p><a href="https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html">https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html</a></p> <ul> <li><a href="https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html#CreateProfile-Manual">https://documentation.suse.com/en-us/sles/15-SP4/html/SLES-all/cha-autoyast-create-control-file.html#CreateProfile-Manual</a></li> </ul> </li> <li> <p><a href="https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/">https://doc.opensuse.org/documentation/leap/archive/15.4/autoyast/single-html/book-autoyast/</a></p> </li> <li> <p><a href="https://en.opensuse.org/SDB:PXE_boot_installation">https://en.opensuse.org/SDB:PXE_boot_installation</a></p> </li> <li> <p><a href="https://www.suse.com/support/kb/doc/?id=000020329">https://www.suse.com/support/kb/doc/?id=000020329</a></p> </li> <li> <p><a href="https://www.linuxquestions.org/questions/linux-server-73/sles-equivalent-of-root-anaconda-ks-cfg-4175543325/">https://www.linuxquestions.org/questions/linux-server-73/sles-equivalent-of-root-anaconda-ks-cfg-4175543325/</a></p> </li> <li> <p><a href="https://www.w3schools.com/xml/xml_validator.asp">https://www.w3schools.com/xml/xml_validator.asp</a></p> </li> <li> <p><a href="https://forums.opensuse.org/t/pxe-autoyast-15-3-15-4/150848">https://forums.opensuse.org/t/pxe-autoyast-15-3-15-4/150848</a></p> </li> <li> <p><a href="https://opensuse-autoinstall.opensuse.narkive.com/8tBZNWIG/debugging-autoyast">https://opensuse-autoinstall.opensuse.narkive.com/8tBZNWIG/debugging-autoyast</a></p> </li> <li> <p><a href="https://opensuse-autoinstall.opensuse.narkive.com/441KAfMq/how-to-configure-services-using-autoyast">https://opensuse-autoinstall.opensuse.narkive.com/441KAfMq/how-to-configure-services-using-autoyast</a></p> </li> </ul> </li> <li> <p>Edited files</p> <ul> <li> <p>suse-15.6-autoyast.xml</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE profile&gt;
+&lt;profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns"&gt;
+  &lt;deploy_image&gt;
+    &lt;image_installation config:type="boolean"&gt;false&lt;/image_installation&gt;
+  &lt;/deploy_image&gt;
   ## without the next 6 lines autoyast will ask for confirmation bevore installation
-  <span class="nt">&lt;general&gt;</span>
-    <span class="nt">&lt;mode&gt;</span>
-      <span class="nt">&lt;confirm</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/confirm&gt;</span>
-      <span class="nt">&lt;final_reboot</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/final_reboot&gt;</span>
-    <span class="nt">&lt;/mode&gt;</span>
-  <span class="nt">&lt;/general&gt;</span>
+  &lt;general&gt;
+    &lt;mode&gt;
+      &lt;confirm config:type="boolean"&gt;false&lt;/confirm&gt;
+      &lt;final_reboot config:type="boolean"&gt;true&lt;/final_reboot&gt;
+    &lt;/mode&gt;
+  &lt;/general&gt;
   $SNIPPET('addons.xml')
   $SNIPPET('hosts.xml')
-  <span class="nt">&lt;ntp-client&gt;</span>
-    <span class="nt">&lt;ntp_policy&gt;</span>auto<span class="nt">&lt;/ntp_policy&gt;</span>
-    <span class="nt">&lt;ntp_servers</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;ntp_server&gt;</span>
-        <span class="nt">&lt;address&gt;</span>us.pool.ntp.org<span class="nt">&lt;/address&gt;</span>
-        <span class="nt">&lt;iburst</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/iburst&gt;</span>
-        <span class="nt">&lt;offline</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/offline&gt;</span>
-      <span class="nt">&lt;/ntp_server&gt;</span>
-      <span class="nt">&lt;ntp_server&gt;</span>
-        <span class="nt">&lt;address&gt;</span>2.opensuse.pool.ntp.org<span class="nt">&lt;/address&gt;</span>
-        <span class="nt">&lt;iburst</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/iburst&gt;</span>
-        <span class="nt">&lt;offline</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/offline&gt;</span>
-      <span class="nt">&lt;/ntp_server&gt;</span>
-    <span class="nt">&lt;/ntp_servers&gt;</span>
-    <span class="nt">&lt;ntp_sync&gt;</span>15<span class="nt">&lt;/ntp_sync&gt;</span>
-  <span class="nt">&lt;/ntp-client&gt;</span>
+  &lt;ntp-client&gt;
+    &lt;ntp_policy&gt;auto&lt;/ntp_policy&gt;
+    &lt;ntp_servers config:type="list"&gt;
+      &lt;ntp_server&gt;
+        &lt;address&gt;us.pool.ntp.org&lt;/address&gt;
+        &lt;iburst config:type="boolean"&gt;false&lt;/iburst&gt;
+        &lt;offline config:type="boolean"&gt;false&lt;/offline&gt;
+      &lt;/ntp_server&gt;
+      &lt;ntp_server&gt;
+        &lt;address&gt;2.opensuse.pool.ntp.org&lt;/address&gt;
+        &lt;iburst config:type="boolean"&gt;false&lt;/iburst&gt;
+        &lt;offline config:type="boolean"&gt;false&lt;/offline&gt;
+      &lt;/ntp_server&gt;
+    &lt;/ntp_servers&gt;
+    &lt;ntp_sync&gt;15&lt;/ntp_sync&gt;
+  &lt;/ntp-client&gt;
   $SNIPPET('kdump.xml')
-  <span class="nt">&lt;keyboard&gt;</span>
-    <span class="nt">&lt;keymap&gt;</span>us<span class="nt">&lt;/keymap&gt;</span>
-  <span class="nt">&lt;/keyboard&gt;</span>
-  <span class="nt">&lt;language&gt;</span>
-    <span class="nt">&lt;language&gt;</span>en_US<span class="nt">&lt;/language&gt;</span>
-    <span class="nt">&lt;languages&gt;&lt;/languages&gt;</span>
-  <span class="nt">&lt;/language&gt;</span>
-  <span class="nt">&lt;timezone&gt;</span>
-    <span class="nt">&lt;hwclock&gt;</span>UTC<span class="nt">&lt;/hwclock&gt;</span>
-    <span class="nt">&lt;timezone&gt;</span>EST5EDT<span class="nt">&lt;/timezone&gt;</span>
-  <span class="nt">&lt;/timezone&gt;</span>
-  <span class="nt">&lt;software&gt;</span>
-    <span class="nt">&lt;packages</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;package&gt;</span>chrony<span class="nt">&lt;/package&gt;</span>
-      <span class="nt">&lt;package&gt;</span>sudo<span class="nt">&lt;/package&gt;</span>
-      <span class="nt">&lt;package&gt;</span>openssh<span class="nt">&lt;/package&gt;</span>
-    <span class="nt">&lt;/packages&gt;</span>
-  <span class="nt">&lt;/software&gt;</span>
-  <span class="nt">&lt;services-manager&gt;</span>
-    <span class="nt">&lt;services&gt;</span>
-      <span class="nt">&lt;enable</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;service&gt;</span>sshd<span class="nt">&lt;/service&gt;</span>
-      <span class="nt">&lt;/enable&gt;</span>
-    <span class="nt">&lt;/services&gt;</span>
-  <span class="nt">&lt;/services-manager&gt;</span>
-  <span class="nt">&lt;login_settings/&gt;</span>
+  &lt;keyboard&gt;
+    &lt;keymap&gt;us&lt;/keymap&gt;
+  &lt;/keyboard&gt;
+  &lt;language&gt;
+    &lt;language&gt;en_US&lt;/language&gt;
+    &lt;languages&gt;&lt;/languages&gt;
+  &lt;/language&gt;
+  &lt;timezone&gt;
+    &lt;hwclock&gt;UTC&lt;/hwclock&gt;
+    &lt;timezone&gt;EST5EDT&lt;/timezone&gt;
+  &lt;/timezone&gt;
+  &lt;software&gt;
+    &lt;packages config:type="list"&gt;
+      &lt;package&gt;chrony&lt;/package&gt;
+      &lt;package&gt;sudo&lt;/package&gt;
+      &lt;package&gt;openssh&lt;/package&gt;
+    &lt;/packages&gt;
+  &lt;/software&gt;
+  &lt;services-manager&gt;
+    &lt;services&gt;
+      &lt;enable config:type="list"&gt;
+        &lt;service&gt;sshd&lt;/service&gt;
+      &lt;/enable&gt;
+    &lt;/services&gt;
+  &lt;/services-manager&gt;
+  &lt;login_settings/&gt;
   $SNIPPET('suse-15.4-networking.xml')
-  <span class="nt">&lt;users</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;user&gt;</span>
-      <span class="nt">&lt;encrypted</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
-      <span class="nt">&lt;fullname&gt;</span>root<span class="nt">&lt;/fullname&gt;</span>
-      <span class="nt">&lt;gid&gt;</span>0<span class="nt">&lt;/gid&gt;</span>
-      <span class="nt">&lt;home&gt;</span>/root<span class="nt">&lt;/home&gt;</span>
-      <span class="nt">&lt;password_settings&gt;</span>
-        <span class="nt">&lt;expire&gt;&lt;/expire&gt;</span>
-        <span class="nt">&lt;flag&gt;&lt;/flag&gt;</span>
-        <span class="nt">&lt;inact&gt;&lt;/inact&gt;</span>
-        <span class="nt">&lt;max&gt;&lt;/max&gt;</span>
-        <span class="nt">&lt;min&gt;&lt;/min&gt;</span>
-        <span class="nt">&lt;warn&gt;&lt;/warn&gt;</span>
-      <span class="nt">&lt;/password_settings&gt;</span>
-      <span class="nt">&lt;shell&gt;</span>/bin/bash<span class="nt">&lt;/shell&gt;</span>
-      <span class="nt">&lt;uid&gt;</span>0<span class="nt">&lt;/uid&gt;</span>
-        <span class="nt">&lt;user_password&gt;</span>$default_password_crypted<span class="nt">&lt;/user_password&gt;</span>
-      <span class="nt">&lt;username&gt;</span>root<span class="nt">&lt;/username&gt;</span>
-    <span class="nt">&lt;/user&gt;</span>
-    <span class="nt">&lt;user&gt;</span>
-      <span class="nt">&lt;encrypted</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
-      <span class="nt">&lt;username&gt;</span>suse<span class="nt">&lt;/username&gt;</span>
-      <span class="nt">&lt;user_password&gt;</span>$default_password_crypted<span class="nt">&lt;/user_password&gt;</span>
-    <span class="nt">&lt;/user&gt;</span>
-  <span class="nt">&lt;/users&gt;</span>
-  <span class="nt">&lt;scripts&gt;</span>
+  &lt;users config:type="list"&gt;
+    &lt;user&gt;
+      &lt;encrypted config:type="boolean"&gt;true&lt;/encrypted&gt;
+      &lt;fullname&gt;root&lt;/fullname&gt;
+      &lt;gid&gt;0&lt;/gid&gt;
+      &lt;home&gt;/root&lt;/home&gt;
+      &lt;password_settings&gt;
+        &lt;expire&gt;&lt;/expire&gt;
+        &lt;flag&gt;&lt;/flag&gt;
+        &lt;inact&gt;&lt;/inact&gt;
+        &lt;max&gt;&lt;/max&gt;
+        &lt;min&gt;&lt;/min&gt;
+        &lt;warn&gt;&lt;/warn&gt;
+      &lt;/password_settings&gt;
+      &lt;shell&gt;/bin/bash&lt;/shell&gt;
+      &lt;uid&gt;0&lt;/uid&gt;
+        &lt;user_password&gt;$default_password_crypted&lt;/user_password&gt;
+      &lt;username&gt;root&lt;/username&gt;
+    &lt;/user&gt;
+    &lt;user&gt;
+      &lt;encrypted config:type="boolean"&gt;true&lt;/encrypted&gt;
+      &lt;username&gt;suse&lt;/username&gt;
+      &lt;user_password&gt;$default_password_crypted&lt;/user_password&gt;
+    &lt;/user&gt;
+  &lt;/users&gt;
+  &lt;scripts&gt;
     ## we have to include the pre-scripts tag to get autoinstall_start included
-    <span class="nt">&lt;pre-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+    &lt;pre-scripts config:type="list"&gt;
       #set global $wrappedscript = 'autoinstall_start'
       $SNIPPET('suse-15.4_scriptwrapper.xml')
         ## SuSE has an annoying habit on ppc64 of changing the system
@@ -126,8 +126,8 @@ cobbler import <span class="nt">--name</span><span class="o">=</span>SUSE-15.6 <
         ## automatically re-install future OS.
         #set global $wrappedscript = 'save_boot_device'
         $SNIPPET('suse-15.4_scriptwrapper.xml')
-    <span class="nt">&lt;/pre-scripts&gt;</span>
-    <span class="nt">&lt;post-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+    &lt;/pre-scripts&gt;
+    &lt;post-scripts config:type="list"&gt;
         ##
         ## This plugin wrapper provides the flexibility to call pure shell
         ## snippets which can be used directly on autoinst file and with
@@ -139,155 +139,265 @@ cobbler import <span class="nt">--name</span><span class="o">=</span>SUSE-15.6 <
         ##
         #set global $wrappedscript = 'name_of_pure_shell_snippet'
         ## $SNIPPET('suse-15.4_scriptwrapper.xml')
-
+      
         ## SuSE has an annoying habit on ppc64 of changing the system
         ## boot order after installation. This makes it non-trivial to
         ## automatically re-install future OS.
         #set global $wrappedscript = 'restore_boot_device'
         $SNIPPET('suse-15.4_scriptwrapper.xml')
-    <span class="nt">&lt;/post-scripts&gt;</span>
+    &lt;/post-scripts&gt;
     ## we have to include the init-scripts tag to get autoinstall_done included
-    <span class="nt">&lt;init-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
+    &lt;init-scripts config:type="list"&gt;
       #set global $wrappedscript = 'autoinstall_done'
       $SNIPPET('suse-15.4_scriptwrapper.xml')
-    <span class="nt">&lt;/init-scripts&gt;</span>
-  <span class="nt">&lt;/scripts&gt;</span>
-<span class="nt">&lt;/profile&gt;</span>
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- suse-15.6-networking.xml
-</code></pre></div></div> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
-<span class="cp">&lt;!DOCTYPE profile&gt;</span>
-<span class="nt">&lt;profile</span> <span class="na">xmlns=</span><span class="s">"http://www.suse.com/1.0/yast2ns"</span> <span class="na">xmlns:config=</span><span class="s">"http://www.suse.com/1.0/configns"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;deploy_image&gt;</span>
-    <span class="nt">&lt;image_installation</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/image_installation&gt;</span>
-  <span class="nt">&lt;/deploy_image&gt;</span>
-  ## without the next 6 lines autoyast will ask for confirmation bevore installation
-  <span class="nt">&lt;general&gt;</span>
-    <span class="nt">&lt;mode&gt;</span>
-      <span class="nt">&lt;confirm</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/confirm&gt;</span>
-      <span class="nt">&lt;final_reboot</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/final_reboot&gt;</span>
-    <span class="nt">&lt;/mode&gt;</span>
-  <span class="nt">&lt;/general&gt;</span>
-  $SNIPPET('addons.xml')
-  $SNIPPET('hosts.xml')
-  <span class="nt">&lt;ntp-client&gt;</span>
-    <span class="nt">&lt;ntp_policy&gt;</span>auto<span class="nt">&lt;/ntp_policy&gt;</span>
-    <span class="nt">&lt;ntp_servers</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;ntp_server&gt;</span>
-        <span class="nt">&lt;address&gt;</span>us.pool.ntp.org<span class="nt">&lt;/address&gt;</span>
-        <span class="nt">&lt;iburst</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/iburst&gt;</span>
-        <span class="nt">&lt;offline</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/offline&gt;</span>
-      <span class="nt">&lt;/ntp_server&gt;</span>
-      <span class="nt">&lt;ntp_server&gt;</span>
-        <span class="nt">&lt;address&gt;</span>2.opensuse.pool.ntp.org<span class="nt">&lt;/address&gt;</span>
-        <span class="nt">&lt;iburst</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/iburst&gt;</span>
-        <span class="nt">&lt;offline</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/offline&gt;</span>
-      <span class="nt">&lt;/ntp_server&gt;</span>
-    <span class="nt">&lt;/ntp_servers&gt;</span>
-    <span class="nt">&lt;ntp_sync&gt;</span>15<span class="nt">&lt;/ntp_sync&gt;</span>
-  <span class="nt">&lt;/ntp-client&gt;</span>
-  $SNIPPET('kdump.xml')
-  <span class="nt">&lt;keyboard&gt;</span>
-    <span class="nt">&lt;keymap&gt;</span>us<span class="nt">&lt;/keymap&gt;</span>
-  <span class="nt">&lt;/keyboard&gt;</span>
-  <span class="nt">&lt;language&gt;</span>
-    <span class="nt">&lt;language&gt;</span>en_US<span class="nt">&lt;/language&gt;</span>
-    <span class="nt">&lt;languages&gt;&lt;/languages&gt;</span>
-  <span class="nt">&lt;/language&gt;</span>
-  <span class="nt">&lt;timezone&gt;</span>
-    <span class="nt">&lt;hwclock&gt;</span>UTC<span class="nt">&lt;/hwclock&gt;</span>
-    <span class="nt">&lt;timezone&gt;</span>EST5EDT<span class="nt">&lt;/timezone&gt;</span>
-  <span class="nt">&lt;/timezone&gt;</span>
-  <span class="nt">&lt;software&gt;</span>
-    <span class="nt">&lt;packages</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;package&gt;</span>chrony<span class="nt">&lt;/package&gt;</span>
-      <span class="nt">&lt;package&gt;</span>sudo<span class="nt">&lt;/package&gt;</span>
-      <span class="nt">&lt;package&gt;</span>openssh<span class="nt">&lt;/package&gt;</span>
-    <span class="nt">&lt;/packages&gt;</span>
-  <span class="nt">&lt;/software&gt;</span>
-  <span class="nt">&lt;services-manager&gt;</span>
-    <span class="nt">&lt;services&gt;</span>
-      <span class="nt">&lt;enable</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;service&gt;</span>sshd<span class="nt">&lt;/service&gt;</span>
-      <span class="nt">&lt;/enable&gt;</span>
-    <span class="nt">&lt;/services&gt;</span>
-  <span class="nt">&lt;/services-manager&gt;</span>
-  <span class="nt">&lt;login_settings/&gt;</span>
-  $SNIPPET('suse-15.4-networking.xml')
-  <span class="nt">&lt;users</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;user&gt;</span>
-      <span class="nt">&lt;encrypted</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
-      <span class="nt">&lt;fullname&gt;</span>root<span class="nt">&lt;/fullname&gt;</span>
-      <span class="nt">&lt;gid&gt;</span>0<span class="nt">&lt;/gid&gt;</span>
-      <span class="nt">&lt;home&gt;</span>/root<span class="nt">&lt;/home&gt;</span>
-      <span class="nt">&lt;password_settings&gt;</span>
-        <span class="nt">&lt;expire&gt;&lt;/expire&gt;</span>
-        <span class="nt">&lt;flag&gt;&lt;/flag&gt;</span>
-        <span class="nt">&lt;inact&gt;&lt;/inact&gt;</span>
-        <span class="nt">&lt;max&gt;&lt;/max&gt;</span>
-        <span class="nt">&lt;min&gt;&lt;/min&gt;</span>
-        <span class="nt">&lt;warn&gt;&lt;/warn&gt;</span>
-      <span class="nt">&lt;/password_settings&gt;</span>
-      <span class="nt">&lt;shell&gt;</span>/bin/bash<span class="nt">&lt;/shell&gt;</span>
-      <span class="nt">&lt;uid&gt;</span>0<span class="nt">&lt;/uid&gt;</span>
-        <span class="nt">&lt;user_password&gt;</span>$default_password_crypted<span class="nt">&lt;/user_password&gt;</span>
-      <span class="nt">&lt;username&gt;</span>root<span class="nt">&lt;/username&gt;</span>
-    <span class="nt">&lt;/user&gt;</span>
-    <span class="nt">&lt;user&gt;</span>
-      <span class="nt">&lt;encrypted</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/encrypted&gt;</span>
-      <span class="nt">&lt;username&gt;</span>suse<span class="nt">&lt;/username&gt;</span>
-      <span class="nt">&lt;user_password&gt;</span>$default_password_crypted<span class="nt">&lt;/user_password&gt;</span>
-    <span class="nt">&lt;/user&gt;</span>
-  <span class="nt">&lt;/users&gt;</span>
-  <span class="nt">&lt;scripts&gt;</span>
-    ## we have to include the pre-scripts tag to get autoinstall_start included
-    <span class="nt">&lt;pre-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-      #set global $wrappedscript = 'autoinstall_start'
-      $SNIPPET('suse-15.4_scriptwrapper.xml')
-        ## SuSE has an annoying habit on ppc64 of changing the system
-        ## boot order after installation. This makes it non-trivial to
-        ## automatically re-install future OS.
-        #set global $wrappedscript = 'save_boot_device'
-        $SNIPPET('suse-15.4_scriptwrapper.xml')
-    <span class="nt">&lt;/pre-scripts&gt;</span>
-    <span class="nt">&lt;post-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-        ##
-        ## This plugin wrapper provides the flexibility to call pure shell
-        ## snippets which can be used directly on autoinst file and with
-        ## wrapper on SuSE.
-        ##
-        ## To use it
-        ## - exchange name_of_pure_shell_snippet with the name of this shell snippet
-        ## - and remove the '##' in front of the line with suse-15.4_scriptwrapper.xml
-        ##
-        #set global $wrappedscript = 'name_of_pure_shell_snippet'
-        ## $SNIPPET('suse-15.4_scriptwrapper.xml')
-
-        ## SuSE has an annoying habit on ppc64 of changing the system
-        ## boot order after installation. This makes it non-trivial to
-        ## automatically re-install future OS.
-        #set global $wrappedscript = 'restore_boot_device'
-        $SNIPPET('suse-15.4_scriptwrapper.xml')
-    <span class="nt">&lt;/post-scripts&gt;</span>
-    ## we have to include the init-scripts tag to get autoinstall_done included
-    <span class="nt">&lt;init-scripts</span> <span class="na">config:type=</span><span class="s">"list"</span><span class="nt">&gt;</span>
-      #set global $wrappedscript = 'autoinstall_done'
-      $SNIPPET('suse-15.4_scriptwrapper.xml')
-    <span class="nt">&lt;/init-scripts&gt;</span>
-  <span class="nt">&lt;/scripts&gt;</span>
-<span class="nt">&lt;/profile&gt;</span>
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- suse-15.6_scriptwrapper.xml
-</code></pre></div></div> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span>
-##        <span class="nt">&lt;debug</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>true<span class="nt">&lt;/debug&gt;</span>
-##        <span class="nt">&lt;feedback</span> <span class="na">config:type=</span><span class="s">"boolean"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/feedback&gt;</span>
-##        <span class="nt">&lt;location&gt;&lt;/location&gt;</span>
+    &lt;/init-scripts&gt;
+  &lt;/scripts&gt;
+&lt;/profile&gt;
+</code></pre></div> </div> </li> <li> <p>suse-15.6-networking.xml</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#set $osversion = $getVar("os_version","")
+#set $hostname = $getVar("hostname","")
+#if $hostname == ""
+#set $hostname = $getVar("system_name","cobbler")
+#end if
+#if $getVar("dns_name_eth0","") != ""
+        #set $my_hostname = $hostname.split('.',1)[:1][0]
+        #set $my_domainname = $dns_name_eth0.split('.',1)[1:][0]
+#else
+        #set $my_hostname = $hostname
+        #set $my_domainname = "site"
+#end if
+      
+  &lt;networking&gt;
+## Figure out if we're automating OS installation for a system or a profile
+#if $getVar('system_name','') != ''
+    &lt;keep_install_network config:type="boolean"&gt;false&lt;/keep_install_network&gt;
+#else
+    &lt;keep_install_network config:type="boolean"&gt;true&lt;/keep_install_network&gt;
+#end if
+    &lt;dhcp_options&gt;
+      &lt;dhclient_client_id&gt;&lt;/dhclient_client_id&gt;
+      &lt;dhclient_hostname_option&gt;&lt;/dhclient_hostname_option&gt;
+    &lt;/dhcp_options&gt;
+    &lt;dns&gt;
+      &lt;dhcp_hostname config:type="boolean"&gt;false&lt;/dhcp_hostname&gt;
+      &lt;write_hostname config:type="boolean"&gt;false&lt;/write_hostname&gt;
+      &lt;resolv_conf_policy&gt;&lt;/resolv_conf_policy&gt;
+      &lt;hostname&gt;$my_hostname&lt;/hostname&gt;
+      &lt;domain&gt;$my_domainname&lt;/domain&gt;
+      #if $getVar("name_servers_search",[]) != []
+      &lt;searchlist config:type="list"&gt;
+      #for $sd in $name_servers_search
+        &lt;search&gt;$sd&lt;/search&gt;
+      #end for
+      &lt;/searchlist&gt;
+      #end if
+      #if $name_servers and $name_servers[0] != "":
+      &lt;nameservers config:type="list"&gt;
+      #for $ns in $name_servers
+        &lt;nameserver&gt;$ns&lt;/nameserver&gt;
+      #end for
+      &lt;/nameservers&gt;
+      #end if
+    &lt;/dns&gt;
+    &lt;interfaces config:type="list"&gt;
+    #if $getVar("system_name","") != ""
+    #import re
+    #set $vlanpattern = $re.compile("[a-zA-Z0-9]+[\.][0-9]+")
+    #set $ikeys = $interfaces.keys()
+    #for $iface in $ikeys
+      #set $idata                = $interfaces[$iface]
+      #set $mac                  = $idata.get("mac_address", "").lower()
+      #set $static               = $idata.get("static", "")
+      #set $ip                   = $idata.get("ip_address", "")
+      #set $netmask              = $idata.get("netmask", "")
+      #set $static_routes        = $idata.get("static_routes", "")
+      #set $iface_type           = $idata.get("interface_type", "").lower()
+      #set $iface_master         = $idata.get("interface_master", "")
+      #set $bonding_opts         = $idata.get("bonding_opts", "").lower()
+      #set $ipv6_address         = $idata.get("ipv6_address", "")
+      #set $ipv6_secondaries     = $idata.get("ipv6_secondaries", "")
+      #set $ipv6_mtu             = $idata.get("ipv6_mtu", "")
+      #set $ipv6_default_gateway = $idata.get("ipv6_default_gateway", "")
+      #set $ipv6_static_routes   = $idata.get("ipv6_static_routes", "")
+      ## start of interface section
+      &lt;interface&gt;
+      #if $iface_type in ("bond", "master")
+        &lt;bonding_master&gt;yes&lt;/bonding_master&gt;
+        &lt;bonding_module_opts&gt;$bonding_opts&lt;/bonding_module_opts&gt;
+        #set $loop_ikeys = $interfaces.keys()
+        #set $loop_counter = 0
+        #for $loop_iface in $loop_ikeys
+          #set $loop_idata          = $interfaces[$loop_iface]
+          #set $loop_interface_type = $loop_idata.get("interface_type", "").lower()
+          #if $loop_interface_type in ("slave","bond_slave")
+             #if $loop_idata["interface_master"] != ""
+                #if $loop_idata["interface_master"].lower() == $iface.lower()
+        &lt;bonding_slave$loop_counter&gt;$loop_iface&lt;/bonding_slave$loop_counter&gt;
+                   #set $loop_counter += 1
+                #end if
+             #end if
+          #end if
+        #end for
+        #if $static
+        &lt;bootproto&gt;static&lt;/bootproto&gt;
+        #else
+        &lt;bootproto&gt;dhcp&lt;/bootproto&gt;
+        #end if
+        &lt;device&gt;$iface&lt;/device&gt;
+        &lt;ipaddr&gt;$ip&lt;/ipaddr&gt;
+        &lt;netmask&gt;$netmask&lt;/netmask&gt;
+        &lt;startmode&gt;auto&lt;/startmode&gt;
+        &lt;usercontrol&gt;no&lt;/usercontrol&gt;
+      #elif $iface_type in ("slave","bond_slave","bridge_slave")
+        &lt;bootproto&gt;none&lt;/bootproto&gt;
+        &lt;device&gt;$iface&lt;/device&gt;
+        #if $osversion == "sles12" or re.match('^sles12sp[1234]$', $osversion)
+        &lt;startmode&gt;hotplug&lt;/startmode&gt;
+        #else
+        &lt;startmode&gt;off&lt;/startmode&gt;
+        #end if
+        &lt;usercontrol&gt;no&lt;/usercontrol&gt;
+      #elif $iface_type in ("","na")
+        #if $static
+        &lt;bootproto&gt;static&lt;/bootproto&gt;
+        #else
+        &lt;bootproto&gt;dhcp&lt;/bootproto&gt;
+        #end if
+        &lt;device&gt;$iface&lt;/device&gt;
+        &lt;lladdr&gt;$mac&lt;/lladdr&gt;
+        &lt;ipaddr&gt;$ip&lt;/ipaddr&gt;
+        &lt;netmask&gt;$netmask&lt;/netmask&gt;
+        &lt;startmode&gt;auto&lt;/startmode&gt;
+        &lt;usercontrol&gt;no&lt;/usercontrol&gt;
+      #end if
+      ## ===================================================================
+      ## VLAN configuration
+      ## ===================================================================
+      #if $vlanpattern.match($iface)
+        #set [$etherdevice, $vlanid] = $iface.split(".")
+        &lt;etherdevice&gt;$etherdevice&lt;/etherdevice&gt;
+        &lt;vlan_id&gt;$vlanid&lt;/vlan_id&gt;
+      #end if
+      ## ===================================================================
+      ## IPv6 support
+      ## ===================================================================
+      #if $ipv6_address != ""
+        &lt;aliases&gt;
+          &lt;alias0&gt;
+            &lt;IPADDR&gt;$ipv6_address&lt;/IPADDR&gt;
+            &lt;LABEL&gt;a0&lt;/LABEL&gt;
+            &lt;PREFIXLEN&gt;64&lt;/PREFIXLEN&gt;
+          &lt;/alias0&gt;
+        #if $ipv6_secondaries != ""
+          #set $s = 1
+          #for $alias in $ipv6_secondaries
+          &lt;alias${s}&gt;
+            &lt;IPADDR&gt;$alias&lt;/IPADDR&gt;
+            &lt;LABEL&gt;a${s}&lt;/LABEL&gt;
+            &lt;PREFIXLEN&gt;64&lt;/PREFIXLEN&gt;
+          &lt;/alias${s}&gt;
+            #set $s += 1
+          #end for
+        #end if
+        &lt;/aliases&gt;
+      #end if
+      &lt;/interface&gt;
+    #end for
+    #end if
+    &lt;/interfaces&gt;
+    &lt;backend&gt;network_manager&lt;/backend&gt;
+    #if $getVar("system_name","") != ""
+    &lt;net-udev config:type="list"&gt;
+    #set $ikeys = $interfaces.keys()
+    #for $iface in $ikeys
+      #set $idata = $interfaces[$iface]
+      #set $mac            = $idata["mac_address"]
+      #set $interface_type = $idata["interface_type"]
+      #if $mac.lower() != ""
+      #if $interface_type.lower() not in ["bond","bridge"]
+      &lt;rule&gt;
+        &lt;name&gt;$iface&lt;/name&gt;
+        &lt;rule&gt;ATTR{address}&lt;/rule&gt;
+        &lt;value&gt;$mac.lower()&lt;/value&gt;
+      &lt;/rule&gt;
+      #end if
+      #end if
+    #end for
+    &lt;/net-udev&gt;
+    #end if
+    &lt;routing&gt;
+      &lt;ip_forward config:type="boolean"&gt;false&lt;/ip_forward&gt;
+      #if $getVar("system_name","") != ""
+      &lt;routes config:type="list"&gt;
+        &lt;route&gt;
+          &lt;destination&gt;default&lt;/destination&gt;
+          &lt;netmask&gt;-&lt;/netmask&gt;
+          &lt;device&gt;-&lt;/device&gt;
+          &lt;gateway&gt;$gateway&lt;/gateway&gt;
+        &lt;/route&gt;
+        ## ===================================================================
+        ## IPv4 static route setup
+        ## ===================================================================
+        #for $iface in $ikeys
+          #set $idata         = $interfaces[$iface]
+          #set $static_routes = $idata.get("static_routes", "")
+          #for $route in $static_routes
+            #set routepattern = $re.compile("[0-9/.]+:[0-9.]+")
+            #if $routepattern.match($route)
+              #set $routebits = $route.split(":")
+              #set [$network, $router] = $route.split(":")
+        &lt;route&gt;
+          &lt;destination&gt;$network&lt;/destination&gt;
+          &lt;netmask&gt;-&lt;/netmask&gt;
+          &lt;device&gt;$iface&lt;/device&gt;
+          &lt;gateway&gt;$router&lt;/gateway&gt;
+        &lt;/route&gt;
+            #end if
+          #end for
+        #end for
+        ## ===================================================================
+        ## IPv6 routing setup
+        ## ===================================================================
+        #for $iface in $ikeys
+          #set $idata                = $interfaces[$iface]
+          #set $ipv6_static_routes   = $idata.get("ipv6_static_routes", "")
+          #set $ipv6_default_gateway = $idata.get("ipv6_default_gateway", "")
+          #if $ipv6_default_gateway != ""
+        &lt;route&gt;
+          &lt;destination&gt;default&lt;/destination&gt;
+          &lt;netmask&gt;-&lt;/netmask&gt;
+          &lt;device&gt;$iface&lt;/device&gt;
+          &lt;gateway&gt;$ipv6_default_gateway&lt;/gateway&gt;
+        &lt;/route&gt;
+          #end if
+          #for $route in $ipv6_static_routes
+            #set routepattern = $re.compile("[0-9a-fA-F:/]+,[0-9a-fA-F:]+")
+            #if $routepattern.match($route)
+              #set $routebits = $route.split(",")
+              #set [$network, $router] = $route.split(",")
+        &lt;route&gt;
+          &lt;destination&gt;$network&lt;/destination&gt;
+          &lt;netmask&gt;-&lt;/netmask&gt;
+          &lt;device&gt;$iface&lt;/device&gt;
+          &lt;gateway&gt;$router&lt;/gateway&gt;
+        &lt;/route&gt;
+            #end if
+          #end for
+        #end for
+      &lt;/routes&gt;
+      #end if
+    &lt;/routing&gt;
+  &lt;/networking&gt;
+</code></pre></div> </div> </li> <li> <p>suse-15.6_scriptwrapper.xml</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script&gt;
+##        &lt;debug config:type="boolean"&gt;true&lt;/debug&gt;
+##        &lt;feedback config:type="boolean"&gt;false&lt;/feedback&gt;
+##        &lt;location&gt;&lt;/location&gt;
 #set $filename = $wrappedscript.replace('/', '_')
-        <span class="nt">&lt;filename&gt;</span>$filename<span class="nt">&lt;/filename&gt;</span>
-        <span class="nt">&lt;source&gt;</span><span class="cp">&lt;![CDATA[
+        &lt;filename&gt;$filename&lt;/filename&gt;
+        &lt;source&gt;&lt;![CDATA[
 $SNIPPET($wrappedscript)
-        ]]&gt;</span><span class="nt">&lt;/source&gt;</span>
-      <span class="nt">&lt;/script&gt;</span>
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- autoinstall_start
-</code></pre></div></div> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#set system_name = $getVar('system_name','')
+        ]]&gt;&lt;/source&gt;
+      &lt;/script&gt;
+</code></pre></div> </div> </li> <li> <p>autoinstall_start</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#set system_name = $getVar('system_name','')
 #set profile_name = $getVar('profile_name','')
 #if $system_name != ''
     #set object_type = 'system'
@@ -314,8 +424,7 @@ $SNIPPET($wrappedscript)
     #end if
 #end if
 #echo $runpre
-</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- autoinstall_done
-</code></pre></div></div> <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#set system_name = $getVar('system_name','')
+</code></pre></div> </div> </li> <li> <p>autoinstall_done</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#set system_name = $getVar('system_name','')
 #set profile_name = $getVar('profile_name','')
 #if $system_name != ''
     #set object_type = 'system'
@@ -377,7 +486,7 @@ $SNIPPET($wrappedscript)
 #echo $nopxe
 #echo $save_autoinstall
 #echo $runpost
-</code></pre></div></div>]]></content><author><name>Sus-Admin</name></author><category term="cobbler"/><summary type="html"><![CDATA[This guide assumes that you have a Fedora 34 server or workstation system configured to run Cobbler v3.3.7 similarly to the Cobbler v3.3.6 Beginner’s guide.]]></summary></entry><entry><title type="html">Cobbler (v3.3.7) Ubuntu Deployment Guide</title><link href="https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide/" rel="alternate" type="text/html" title="Cobbler (v3.3.7) Ubuntu Deployment Guide"/><published>2024-12-11T00:00:00+00:00</published><updated>2024-12-11T00:00:00+00:00</updated><id>https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide</id><content type="html" xml:base="https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide/"><![CDATA[<p>This guide assumes that you have a Fedora 34 server or workstation system configured to run Cobbler v3.3.7 similarly to the <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler v3.3.6 Beginner’s guide</a>.</p> <h2 class="no_toc" id="table-of-contents">Table of Contents</h2> <ol id="markdown-toc"> <li><a href="#objective" id="markdown-toc-objective">Objective</a> <ol> <li><a href="#caveats" id="markdown-toc-caveats">Caveats</a></li> </ol> </li> <li><a href="#cobbler-server-prep" id="markdown-toc-cobbler-server-prep">Cobbler Server Prep</a> <ol> <li><a href="#dependencies" id="markdown-toc-dependencies">Dependencies</a></li> </ol> </li> <li><a href="#ubuntu-2004-pxe-deployment" id="markdown-toc-ubuntu-2004-pxe-deployment">Ubuntu 20.04 PXE Deployment</a></li> <li><a href="#ubuntu-2204-pxe-deployment" id="markdown-toc-ubuntu-2204-pxe-deployment">Ubuntu 22.04 PXE Deployment</a></li> <li><a href="#ubuntu-2404-pxe-deployment" id="markdown-toc-ubuntu-2404-pxe-deployment">Ubuntu 24.04 PXE Deployment</a></li> <li><a href="#tips--troubleshooting" id="markdown-toc-tips--troubleshooting">Tips &amp; Troubleshooting</a></li> </ol> <h2 id="objective">Objective</h2> <p>Starting where the <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Beginner’s guide</a> left off, further configure the Cobbler v3.3.7 server to deploy the latest 3 releases of Ubuntu Server LTS <em>(Ubuntu 20.04, 22.04, 24.04)</em> via PXE network boot, using the same system and network environment. This guide assumes that you still have <code class="language-plaintext highlighter-rouge">selinux</code> and <code class="language-plaintext highlighter-rouge">firewalld</code> configured and enabled as described in the Beginner’s guide.</p> <h3 id="caveats">Caveats</h3> <ul> <li> <p>Until the release of Ubuntu 20.04, Canonical used the same <a href="/_posts/2024-12-02-Cobbler-v3.3.7-Debian-Deployment-Guide.md">debian-installer</a> from Debian, including the “preseed” autoinstallation model; starting with Ubuntu 20.04, Canonical switched to using their <a href="https://github.com/canonical/cloud-init">in-house</a> <a href="https://cloud-init.io/"><code class="language-plaintext highlighter-rouge">cloud-init</code></a> solution.</p> <ul> <li> <p>Ubuntu did offer compatability/support with the <em>debian-installer/preseed</em> autoinstallation model in the <a href="https://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/">Ubuntu 20.04 Legacy</a> release.</p> </li> <li> <p>This guide only provides procedures for deploying Ubuntu systems using <code class="language-plaintext highlighter-rouge">cloud-init</code>.</p> </li> </ul> </li> </ul> <h2 id="cobbler-server-prep">Cobbler Server Prep</h2> <p>Cobbler v3.3.7 does not come with a sample template for the <code class="language-plaintext highlighter-rouge">cloud-init</code> autoinstall files, so create that before getting started, as well as some Cobbler sync-triggers to correct the bootloader configurations for compatability with <code class="language-plaintext highlighter-rouge">cloud-init</code>.</p> <h3 id="dependencies">Dependencies</h3> <p>Create the <code class="language-plaintext highlighter-rouge">cloud-init</code> autoinstall template with the following contents and save it to <code class="language-plaintext highlighter-rouge">/var/lib/cobbler/templates/cloud-init_user-data</code>:</p> <blockquote> <p>Cobbler Templates and Snippets are actually Python Cheetah templates, so be careful editing the files, especially the cheetah code preceded buy <code class="language-plaintext highlighter-rouge">#</code></p> </blockquote> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#cloud-config</span>
+</code></pre></div> </div> </li> </ul> </li> </ol>]]></content><author><name>Sus-Admin</name></author><category term="cobbler"/><summary type="html"><![CDATA[This guide assumes that you have a Fedora 34 server or workstation system configured to run Cobbler v3.3.7 similarly to the Cobbler v3.3.6 Beginner’s guide.]]></summary></entry><entry><title type="html">Cobbler (v3.3.7) Ubuntu Deployment Guide</title><link href="https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide/" rel="alternate" type="text/html" title="Cobbler (v3.3.7) Ubuntu Deployment Guide"/><published>2024-12-11T00:00:00+00:00</published><updated>2024-12-11T00:00:00+00:00</updated><id>https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide</id><content type="html" xml:base="https://sus-admin.github.io/blog/2024/Cobbler-v3.3.7-Ubuntu-Deployment-Guide/"><![CDATA[<p>This guide assumes that you have a Fedora 34 server or workstation system configured to run Cobbler v3.3.7 similarly to the <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler v3.3.6 Beginner’s guide</a>.</p> <h2 class="no_toc" id="table-of-contents">Table of Contents</h2> <ol id="markdown-toc"> <li><a href="#objective" id="markdown-toc-objective">Objective</a> <ol> <li><a href="#caveats" id="markdown-toc-caveats">Caveats</a></li> </ol> </li> <li><a href="#cobbler-server-prep" id="markdown-toc-cobbler-server-prep">Cobbler Server Prep</a> <ol> <li><a href="#dependencies" id="markdown-toc-dependencies">Dependencies</a></li> </ol> </li> <li><a href="#ubuntu-2004-pxe-deployment" id="markdown-toc-ubuntu-2004-pxe-deployment">Ubuntu 20.04 PXE Deployment</a></li> <li><a href="#ubuntu-2204-pxe-deployment" id="markdown-toc-ubuntu-2204-pxe-deployment">Ubuntu 22.04 PXE Deployment</a></li> <li><a href="#ubuntu-2404-pxe-deployment" id="markdown-toc-ubuntu-2404-pxe-deployment">Ubuntu 24.04 PXE Deployment</a></li> <li><a href="#tips--troubleshooting" id="markdown-toc-tips--troubleshooting">Tips &amp; Troubleshooting</a></li> </ol> <h2 id="objective">Objective</h2> <p>Starting where the <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Beginner’s guide</a> left off, further configure the Cobbler v3.3.7 server to deploy the latest 3 releases of Ubuntu Server LTS <em>(Ubuntu 20.04, 22.04, 24.04)</em> via PXE network boot, using the same system and network environment. This guide assumes that you still have <code class="language-plaintext highlighter-rouge">selinux</code> and <code class="language-plaintext highlighter-rouge">firewalld</code> configured and enabled as described in the Beginner’s guide.</p> <h3 id="caveats">Caveats</h3> <ul> <li> <p>Until the release of Ubuntu 20.04, Canonical used the same <a href="/_posts/2024-12-02-Cobbler-v3.3.7-Debian-Deployment-Guide.md">debian-installer</a> from Debian, including the “preseed” autoinstallation model; starting with Ubuntu 20.04, Canonical switched to using their <a href="https://github.com/canonical/cloud-init">in-house</a> <a href="https://cloud-init.io/"><code class="language-plaintext highlighter-rouge">cloud-init</code></a> solution.</p> <ul> <li> <p>Ubuntu did offer compatability/support with the <em>debian-installer/preseed</em> autoinstallation model in the <a href="https://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/">Ubuntu 20.04 Legacy</a> release.</p> </li> <li> <p>This guide only provides procedures for deploying Ubuntu systems using <code class="language-plaintext highlighter-rouge">cloud-init</code>.</p> </li> </ul> </li> </ul> <h2 id="cobbler-server-prep">Cobbler Server Prep</h2> <p>Cobbler v3.3.7 does not come with a sample template for the <code class="language-plaintext highlighter-rouge">cloud-init</code> autoinstall files, so create that before getting started, as well as some Cobbler sync-triggers to correct the bootloader configurations for compatability with <code class="language-plaintext highlighter-rouge">cloud-init</code>.</p> <h3 id="dependencies">Dependencies</h3> <p>Create the <code class="language-plaintext highlighter-rouge">cloud-init</code> autoinstall template with the following contents and save it to <code class="language-plaintext highlighter-rouge">/var/lib/cobbler/templates/cloud-init_user-data</code>:</p> <blockquote> <p>Cobbler Templates and Snippets are actually Python Cheetah templates, so be careful editing the files, especially the cheetah code preceded buy <code class="language-plaintext highlighter-rouge">#</code></p> </blockquote> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#cloud-config</span>
 autoinstall:
   version: 1
   apt:
@@ -1048,49 +1157,49 @@ cobbler profile add <span class="nt">--name</span> Debian-latest <span class="nt
 <span class="nb">ln</span> <span class="nt">-s</span> /var/www/cobbler/repo_mirror/Debian-latest /var/www/cobbler/links/Debian-latest
 cobbler <span class="nb">sync</span>
 </code></pre></div></div> <p>Now the <strong>PXE Client</strong> should be able to boot from a generic/random MAC address and load the new “Debian-latest” Cobbler Profile over GRUB</p> <blockquote> <p>Cobbler Systems can now also be added similarly to above in the <strong>Debian 12 Bookworm PXE Deployment</strong> and <strong>Debian 11 Bullseye PXE Deployment</strong> sections above.</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cobbler system add <span class="nt">--name</span> Debian-Latest <span class="nt">--profile</span> Debian-latest <span class="nt">--mac-address</span> <span class="s2">"aa:bb:cc:dd:ee:ff"</span> <span class="nt">--netboot-enabled</span> <span class="nb">true</span>
-</code></pre></div> </div> </blockquote> <h2 id="tips--troubleshooting">Tips &amp; Troubleshooting</h2> <ol> <li> <p>The <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler 3.3.6 Beginner’s Guide</a> <strong>Tips &amp; Troubleshooting</strong> section contains some basic recommendations and limitations of Cobbler which will not be repeated here.</p> </li> <li> <p>The <code class="language-plaintext highlighter-rouge">debian-installer</code> issue mentioned in the <strong>Caveats</strong> section above is primarily marked by a fatal error during the installation process and the log entry <code class="language-plaintext highlighter-rouge">GPG error</code> in <code class="language-plaintext highlighter-rouge">/var/log/syslog</code> on the installer system, or, if the workaround script was used, you can install the <code class="language-plaintext highlighter-rouge">debconf-utils</code> package on the resulting system and use the command <code class="language-plaintext highlighter-rouge">debconf-get-selections --installer | grep "Downloading"</code> for more info on the error.</p> <ul> <li> <p>The error prevents the installation from proceeding using the configured repo mirror, but the <code class="language-plaintext highlighter-rouge">debian-installer</code> remains running; press <strong>ALT+F2</strong> or <strong>ALT+F3</strong> on the PXE client keyboard to access a privileged shell to conduct some troubleshooting.</p> </li> <li> <p>The issue stems from the below section of the preseed file, retrieved drectly from Debian’s official <a href="https://www.debian.org/releases/stable/example-preseed.txt">stable</a> and <a href="https://www.debian.org/releases/bookworm/example-preseed.txt">bookworm</a> example preseed files.</p> </li> </ul> </li> </ol> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">### Apt setup</span>
-<span class="c"># Choose, if you want to scan additional installation media</span>
-<span class="c"># (default: false).</span>
-d-i apt-setup/cdrom/set-first boolean <span class="nb">false</span>
-<span class="c"># You can choose to install non-free firmware.</span>
-<span class="c">#d-i apt-setup/non-free-firmware boolean true</span>
-<span class="c"># You can choose to install non-free and contrib software.</span>
-<span class="c">#d-i apt-setup/non-free boolean true</span>
-<span class="c">#d-i apt-setup/contrib boolean true</span>
-<span class="c"># Uncomment the following line, if you don't want to have the sources.list</span>
-<span class="c"># entry for a DVD/BD installation image active in the installed system</span>
-<span class="c"># (entries for netinst or CD images will be disabled anyway, regardless of</span>
-<span class="c"># this setting).</span>
-<span class="c">#d-i apt-setup/disable-cdrom-entries boolean true</span>
-<span class="c"># Uncomment this if you don't want to use a network mirror.</span>
-<span class="c">#d-i apt-setup/use_mirror boolean false</span>
-<span class="c"># Select which update services to use; define the mirrors to be used.</span>
-<span class="c"># Values shown below are the normal defaults.</span>
-<span class="c">#d-i apt-setup/services-select multiselect security, updates</span>
-<span class="c">#d-i apt-setup/security_host string security.debian.org</span>
-
-<span class="c"># Additional repositories, local[0-9] available</span>
-<span class="c">#d-i apt-setup/local0/repository string \</span>
-<span class="c">#       http://local.server/debian stable main</span>
-<span class="c">#d-i apt-setup/local0/comment string local server</span>
-<span class="c"># Enable deb-src lines</span>
-<span class="c">#d-i apt-setup/local0/source boolean true</span>
-<span class="c"># URL to the public key of the local repository; you must provide a key or</span>
-<span class="c"># apt will complain about the unauthenticated repository and so the</span>
-<span class="c"># sources.list line will be left commented out.</span>
-<span class="c">#d-i apt-setup/local0/key string http://local.server/key</span>
-<span class="c"># or one can provide it in-line by base64 encoding the contents of the</span>
-<span class="c"># key file (with `base64 -w0`) and specifying it thus:</span>
-<span class="c">#d-i apt-setup/local0/key string base64://LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCi4uLgo=</span>
-<span class="c"># The content of the key file is checked to see if it appears to be ASCII-armoured.</span>
-<span class="c"># If so it will be saved with an ".asc" extension, otherwise it gets a '.gpg' extension.</span>
-<span class="c"># "keybox database" format is currently not supported. (see generators/60local in apt-setup's source)</span>
-
-<span class="c"># By default the installer requires that repositories be authenticated</span>
-<span class="c"># using a known gpg key. This setting can be used to disable that</span>
-<span class="c"># authentication. Warning: Insecure, not recommended.</span>
-<span class="c">#d-i debian-installer/allow_unauthenticated boolean true</span>
-</code></pre></div></div> <ol> <li><em>(continued)</em> <ul> <li> <p>As seen in the procedures above, <code class="language-plaintext highlighter-rouge">allow_unauthenticated</code> is set to true, which appears to only permit the installation to START when an untrusted repo mirror is found, but the mirror will be checked again before beginning the <code class="language-plaintext highlighter-rouge">apt-setup</code> phase, which <code class="language-plaintext highlighter-rouge">allow_unauthenticated</code> will not override.</p> <ul> <li> <p>This means that the <code class="language-plaintext highlighter-rouge">debian-installer</code> also requires the local APT mirror to be defined using the <code class="language-plaintext highlighter-rouge">d-i apt-setup/local0/repository</code> &amp; <code class="language-plaintext highlighter-rouge">d-i apt-setup/local0/key</code> preseed options in order for the PXE client to retrieve the public GPG key for the repo mirror and use it to validate the mirror, which seems to be configured properly through the preseed from Cobbler, verified with the following commands on the <code class="language-plaintext highlighter-rouge">debian-installer</code> system (and obviously can be done, since the workaround provided in this guide does essentially the same thing):</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  debconf-get apt-setup/local0/repository
+</code></pre></div> </div> </blockquote> <h2 id="tips--troubleshooting">Tips &amp; Troubleshooting</h2> <ol> <li> <p>The <a href="/blog/2024/Cobbler-v3.3.6-Beginners-Guide/">Cobbler 3.3.6 Beginner’s Guide</a> <strong>Tips &amp; Troubleshooting</strong> section contains some basic recommendations and limitations of Cobbler which will not be repeated here.</p> </li> <li> <p>The <code class="language-plaintext highlighter-rouge">debian-installer</code> issue mentioned in the <strong>Caveats</strong> section above is primarily marked by a fatal error during the installation process and the log entry <code class="language-plaintext highlighter-rouge">GPG error</code> in <code class="language-plaintext highlighter-rouge">/var/log/syslog</code> on the installer system, or, if the workaround script was used, you can install the <code class="language-plaintext highlighter-rouge">debconf-utils</code> package on the resulting system and use the command <code class="language-plaintext highlighter-rouge">debconf-get-selections --installer | grep "Downloading"</code> for more info on the error.</p> <ul> <li> <p>The error prevents the installation from proceeding using the configured repo mirror, but the <code class="language-plaintext highlighter-rouge">debian-installer</code> remains running; press <strong>ALT+F2</strong> or <strong>ALT+F3</strong> on the PXE client keyboard to access a privileged shell to conduct some troubleshooting.</p> </li> <li> <p>The issue stems from the below section of the preseed file, retrieved drectly from Debian’s official <a href="https://www.debian.org/releases/stable/example-preseed.txt">stable</a> and <a href="https://www.debian.org/releases/bookworm/example-preseed.txt">bookworm</a> example preseed files.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Apt setup
+# Choose, if you want to scan additional installation media
+# (default: false).
+d-i apt-setup/cdrom/set-first boolean false
+# You can choose to install non-free firmware.
+#d-i apt-setup/non-free-firmware boolean true
+# You can choose to install non-free and contrib software.
+#d-i apt-setup/non-free boolean true
+#d-i apt-setup/contrib boolean true
+# Uncomment the following line, if you don't want to have the sources.list
+# entry for a DVD/BD installation image active in the installed system
+# (entries for netinst or CD images will be disabled anyway, regardless of
+# this setting).
+#d-i apt-setup/disable-cdrom-entries boolean true
+# Uncomment this if you don't want to use a network mirror.
+#d-i apt-setup/use_mirror boolean false
+# Select which update services to use; define the mirrors to be used.
+# Values shown below are the normal defaults.
+#d-i apt-setup/services-select multiselect security, updates
+#d-i apt-setup/security_host string security.debian.org
+      
+# Additional repositories, local[0-9] available
+#d-i apt-setup/local0/repository string \
+#       http://local.server/debian stable main
+#d-i apt-setup/local0/comment string local server
+# Enable deb-src lines
+#d-i apt-setup/local0/source boolean true
+# URL to the public key of the local repository; you must provide a key or
+# apt will complain about the unauthenticated repository and so the
+# sources.list line will be left commented out.
+#d-i apt-setup/local0/key string http://local.server/key
+# or one can provide it in-line by base64 encoding the contents of the
+# key file (with `base64 -w0`) and specifying it thus:
+#d-i apt-setup/local0/key string base64://LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCi4uLgo=
+# The content of the key file is checked to see if it appears to be ASCII-armoured.
+# If so it will be saved with an ".asc" extension, otherwise it gets a '.gpg' extension.
+# "keybox database" format is currently not supported. (see generators/60local in apt-setup's source)
+      
+# By default the installer requires that repositories be authenticated
+# using a known gpg key. This setting can be used to disable that
+# authentication. Warning: Insecure, not recommended.
+#d-i debian-installer/allow_unauthenticated boolean true
+</code></pre></div> </div> </li> <li> <p>As seen in the procedures above, <code class="language-plaintext highlighter-rouge">allow_unauthenticated</code> is set to true, which appears to only permit the installation to START when an untrusted repo mirror is found, but the mirror will be checked again before beginning the <code class="language-plaintext highlighter-rouge">apt-setup</code> phase, which <code class="language-plaintext highlighter-rouge">allow_unauthenticated</code> will not override.</p> <ul> <li> <p>This means that the <code class="language-plaintext highlighter-rouge">debian-installer</code> also requires the local APT mirror to be defined using the <code class="language-plaintext highlighter-rouge">d-i apt-setup/local0/repository</code> &amp; <code class="language-plaintext highlighter-rouge">d-i apt-setup/local0/key</code> preseed options in order for the PXE client to retrieve the public GPG key for the repo mirror and use it to validate the mirror, which seems to be configured properly through the preseed from Cobbler, verified with the following commands on the <code class="language-plaintext highlighter-rouge">debian-installer</code> system (and obviously can be done, since the workaround provided in this guide does essentially the same thing):</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  debconf-get apt-setup/local0/repository
   debconf-get apt-setup/local0/key
   less /var/lib/preseed/log
   <span class="nb">cat</span> /var/log/syslog | <span class="nb">grep</span> <span class="s2">"GPG error"</span>
