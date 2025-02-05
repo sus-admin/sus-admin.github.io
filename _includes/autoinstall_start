@@ -1,3 +1,4 @@
+```xml
 #set system_name = $getVar('system_name','')
 #set profile_name = $getVar('profile_name','')
 #if $system_name != ''
@@ -25,3 +26,4 @@
     #end if
 #end if
 #echo $runpre
+```

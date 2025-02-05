@@ -1,3 +1,4 @@
+```xml
 #set system_name = $getVar('system_name','')
 #set profile_name = $getVar('profile_name','')
 #if $system_name != ''
@@ -60,3 +61,4 @@
 #echo $nopxe
 #echo $save_autoinstall
 #echo $runpost
+```

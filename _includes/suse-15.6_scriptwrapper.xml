@@ -1,3 +1,4 @@
+```xml
 <script>
 ##        <debug config:type="boolean">true</debug>
 ##        <feedback config:type="boolean">false</feedback>
@@ -8,3 +9,4 @@
 $SNIPPET($wrappedscript)
         ]]></source>
       </script>
+```
