@@ -99,7 +99,7 @@ cobbler <span class="nb">sync</span>
     &lt;/services&gt;
   &lt;/services-manager&gt;
   &lt;login_settings/&gt;
-  $SNIPPET('suse-15.4-networking.xml')
+  $SNIPPET('suse-15.6-networking.xml')
   &lt;users config:type="list"&gt;
     &lt;user&gt;
       &lt;encrypted config:type="boolean"&gt;true&lt;/encrypted&gt;
@@ -129,12 +129,12 @@ cobbler <span class="nb">sync</span>
     ## we have to include the pre-scripts tag to get autoinstall_start included
     &lt;pre-scripts config:type="list"&gt;
       #set global $wrappedscript = 'autoinstall_start'
-      $SNIPPET('suse-15.4_scriptwrapper.xml')
+      $SNIPPET('suse-15.6_scriptwrapper.xml')
         ## SuSE has an annoying habit on ppc64 of changing the system
         ## boot order after installation. This makes it non-trivial to
         ## automatically re-install future OS.
         #set global $wrappedscript = 'save_boot_device'
-        $SNIPPET('suse-15.4_scriptwrapper.xml')
+        $SNIPPET('suse-15.6_scriptwrapper.xml')
     &lt;/pre-scripts&gt;
     &lt;post-scripts config:type="list"&gt;
         ##
@@ -144,21 +144,21 @@ cobbler <span class="nb">sync</span>
         ##
         ## To use it
         ## - exchange name_of_pure_shell_snippet with the name of this shell snippet
-        ## - and remove the '##' in front of the line with suse-15.4_scriptwrapper.xml
+        ## - and remove the '##' in front of the line with suse-15.6_scriptwrapper.xml
         ##
         #set global $wrappedscript = 'name_of_pure_shell_snippet'
-        ## $SNIPPET('suse-15.4_scriptwrapper.xml')
+        ## $SNIPPET('suse-15.6_scriptwrapper.xml')
       
         ## SuSE has an annoying habit on ppc64 of changing the system
         ## boot order after installation. This makes it non-trivial to
         ## automatically re-install future OS.
         #set global $wrappedscript = 'restore_boot_device'
-        $SNIPPET('suse-15.4_scriptwrapper.xml')
+        $SNIPPET('suse-15.6_scriptwrapper.xml')
     &lt;/post-scripts&gt;
     ## we have to include the init-scripts tag to get autoinstall_done included
     &lt;init-scripts config:type="list"&gt;
       #set global $wrappedscript = 'autoinstall_done'
-      $SNIPPET('suse-15.4_scriptwrapper.xml')
+      $SNIPPET('suse-15.6_scriptwrapper.xml')
     &lt;/init-scripts&gt;
   &lt;/scripts&gt;
 &lt;/profile&gt;
