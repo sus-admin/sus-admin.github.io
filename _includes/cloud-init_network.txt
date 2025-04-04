@@ -46,6 +46,8 @@
             - $dns
                     #end for
                 #end if
+            #else
+        dhcp4: true
             #end if
         #else
         dhcp4: true
