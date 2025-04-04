@@ -21,126 +21,34 @@
         #if $type == "bmc"
             #continue
         #end if
-        #if $iname != "default":
-            #if $mac != "":
       $iname:
         match:
           macaddress: $mac
-                #if $static == True:
-                    #if $ip != "":
-                        #if $netmask != "":
-                            #set $mask = sum([bin(int(x)).count('1') for x in $netmask.split('.')])
+        #if $static == True:
+            #if $ip != "":
+                #if $netmask != "":
+                    #set $mask = sum([bin(int(x)).count('1') for x in $netmask.split('.')])
         dhcp4: false
         addresses:
           - $ip/$mask
-                        #else
+                #else
         dhcp4: false
         addresses:
           - $ip/24
-                        #end if
-                    #end if
-                    #if $gateway != "":
-        gateway4: $gateway
-                    #end if
-                    #if $name_servers and $name_servers[0] != "":
-        nameservers:
-          addresses:
-                        #for $dns in $name_servers
-            - $dns
-                        #end for
-                    #end if
-                #else
-        dhcp4: true
                 #end if
-            #else
-      $iname:
-                #if $static == True:
-                    #if $ip != "":
-                        #if $netmask != "":
-                            #set $mask = sum([bin(int(x)).count('1') for x in $netmask.split('.')])
-        dhcp4: false
-        addresses:
-          - $ip/$mask
-                        #else
-        dhcp4: false
-        addresses:
-          - $ip/24
-                        #end if
-                    #end if
-                    #if $gateway != "":
+                #if $gateway != "":
         gateway4: $gateway
-                    #end if
-                    #if $name_servers and $name_servers[0] != "":
+                #end if
+                #if $name_servers and $name_servers[0] != "":
         nameservers:
           addresses:
-                        #for $dns in $name_servers
+                    #for $dns in $name_servers
             - $dns
-                        #end for
-                    #end if
-                #else
-        dhcp4: true
+                    #end for
                 #end if
             #end if
         #else
-            #if $mac != "":
-      $iname:
-        match:
-          macaddress: $mac
-                #if $static == True:
-                    #if $ip != "":
-                        #if $netmask != "":
-                            #set $mask = sum([bin(int(x)).count('1') for x in $netmask.split('.')])
-        dhcp4: false
-        addresses:
-          - $ip/$mask
-                        #else
-        dhcp4: false
-        addresses:
-          - $ip/24
-                        #end if
-                    #end if
-                    #if $gateway != "":
-        gateway4: $gateway
-                    #end if
-                    #if $name_servers and $name_servers[0] != "":
-        nameservers:
-          addresses:
-                        #for $dns in $name_servers
-            - $dns
-                        #end for
-                    #end if
-                #else
         dhcp4: true
-                #end if
-            #else
-      $iname:
-                #if $static == True:
-                    #if $ip != "":
-                        #if $netmask != "":
-                            #set $mask = sum([bin(int(x)).count('1') for x in $netmask.split('.')])
-        dhcp4: false
-        addresses:
-          - $ip/$mask
-                        #else
-        dhcp4: false
-        addresses:
-          - $ip/24
-                        #end if
-                    #end if
-                    #if $gateway != "":
-        gateway4: $gateway
-                    #end if
-                    #if $name_servers and $name_servers[0] != "":
-        nameservers:
-          addresses:
-                        #for $dns in $name_servers
-            - $dns
-                        #end for
-                    #end if
-                #else
-        dhcp4: true
-                #end if
-            #end if
         #end if
     #end for
     version: 2
